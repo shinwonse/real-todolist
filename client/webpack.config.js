@@ -48,6 +48,13 @@ const config = {
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  resolve: {
+    alias: {
+      pages: path.resolve('./src/views/pages'),
+      components: path.resolve('./src/views/components'),
+      assets: path.resolve('./src/assets/'),
+    },
+  },
 };
 
 module.exports = () => {
