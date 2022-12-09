@@ -12,6 +12,7 @@
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
+    "core-js": "^3.26.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
