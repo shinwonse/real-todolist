@@ -1,5 +1,5 @@
 {
-팅  "name": "real-todolist",
+  "name": "real-todolist",
   "version": "1.0.0",
   "description": "TodoList with VanillaJS",
   "main": "index.js",
