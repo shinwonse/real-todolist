@@ -18,7 +18,7 @@ class LoginPage extends Component {
 
   setEvent() {
     this.addEvent('click', '.Login__Button', () => {
-      console.log('click');
+      history.pushState(null, null, '/todolist');
     });
   }
 }
