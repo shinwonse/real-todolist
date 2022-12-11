@@ -1,5 +1,12 @@
-import Login from './views/pages/Login';
 import 'assets/styles/base.scss';
+import Login from 'pages/Login';
+import TodoList from 'pages/TodoList';
 
-const root = document.getElementById('root');
-root.innerHTML = Login;
+class App {
+  constructor() {
+    const $app = document.querySelector('#app');
+    new TodoList($app);
+  }
+}
+
+new App();
