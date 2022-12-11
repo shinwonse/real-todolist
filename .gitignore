@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/webstorm,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=webstorm,macos
+.env
 .dist
 node_modules
 .idea
