@@ -1,6 +1,8 @@
 import KakaoLogin from 'assets/images/kakao_login_medium_wide.png';
+import TodoList from 'pages/TodoList';
 
 import Component from '../../core/Component';
+import router from '../../Router';
 
 class LoginPage extends Component {
   template() {
@@ -18,7 +20,9 @@ class LoginPage extends Component {
 
   setEvent() {
     this.addEvent('click', '.Login__Button', () => {
-      history.pushState(null, null, '/todolist');
+      router.push(TodoList);
+      // location.href =
+      //   'https://kauth.kakao.com/oauth/authorize?client_id=b7b1a22f9072cb8cf1479960e9e10414&redirect_uri=http://localhost:3000/users&response_type=code';
     });
   }
 }
