@@ -15,19 +15,27 @@ const routes = [
 class Router {
   constructor() {
     this.routes = routes;
+    this.$app = document.querySelector('#app');
+    window.onpopstate = () => {
+      this.init();
+    };
   }
 
   init() {
-    const $app = document.querySelector('#app');
     const { path } = routes.find((route) => route.path === location.pathname);
-
     if (path === '/') {
-      return new Login($app);
+      return new Login(this.$app);
     }
-
     if (path === '/todolist') {
-      return new TodoList($app);
+      return new TodoList(this.$app);
     }
+  }
+
+  static push(PageComponent) {
+    const path = routes.find((route) => route.component === PageComponent).path;
+    history.pushState(null, null, path);
+    const $app = document.querySelector('#app');
+    return new PageComponent($app);
   }
 }
 
