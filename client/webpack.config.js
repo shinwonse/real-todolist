@@ -1,8 +1,13 @@
 const path = require('path');
 
+const dotenv = require('dotenv');
+dotenv.config();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+
+const environmentVariables = ['KAKAO_CLIENT_ID', 'KAKAO_REDIRECT_URI'];
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,6 +29,7 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'index.html',
     }),
+    new webpack.EnvironmentPlugin(environmentVariables),
   ],
   module: {
     rules: [
