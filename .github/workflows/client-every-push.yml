@@ -8,9 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
     steps:
       - uses: actions/checkout@v2
-      - with:
-        - working-directory: client
-        - run: npm install
-        - run: npm run build
+      - run: npm install
+      - run: npm run build
