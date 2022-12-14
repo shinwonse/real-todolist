@@ -10,11 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd client
-      - run: npm install
-      - run: npm run build
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 This is a test 🎉"
-
+      - with:
+        - working-directory: client
+        - run: npm install
+        - run: npm run build
