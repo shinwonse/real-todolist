@@ -3,7 +3,7 @@ name: Every Push On Client
 on:
   push:
     branches:
-      - client/**
+      - client
 
 jobs:
   build:
