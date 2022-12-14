@@ -11,15 +11,20 @@ jobs:
     defaults:
       run:
         working-directory: client
+    name: Build Client
 
-    name: Generate Environment Variables File for Production
-      run: |
-        echo "KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID" >> .env.production
-        echo "KAKAO_REDIRECT_URI=$KAKAO_REDIRECT_URI" >> .env.production
-      env:
-        REACT_APP_DOMAIN: ${{ secrets.KAKAO_CLIENT_ID }}
-        REACT_APP_DEBUG: ${{ secrets.KAKAO_REDIRECT_URI }}
     steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID" >> .env.production
+          echo "KAKAO_REDIRECT_URI=$KAKAO_REDIRECT_URI" >> .env.production
+        env:
+          REACT_APP_DOMAIN: ${{ secrets.KAKAO_CLIENT_ID }}
+          REACT_APP_DEBUG: ${{ secrets.KAKAO_REDIRECT_URI }}
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run build
