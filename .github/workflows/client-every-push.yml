@@ -3,8 +3,7 @@ run-name: ${{ github.actor }} is testing out on pushed commits 🚀
 on:
   push:
     branches:
-      - client
-      -
+      - 'client/**'
 jobs:
   test:
     runs-on: ubuntu-latest
