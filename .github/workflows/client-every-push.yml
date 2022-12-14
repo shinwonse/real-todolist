@@ -1,15 +1,12 @@
 name: Every Push On Client
-
+run-name: ${{ github.actor }} is testing out on pushed commits 🚀
 on:
   push:
     branches:
       - client
-
 jobs:
-  build:
-    name: Build
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+      -run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+
