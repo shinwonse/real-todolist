@@ -32,7 +32,6 @@ jobs:
 
       - name: Build
         run: npm run build
-        with:
-          env:
-            KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-            KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
+        env:
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
