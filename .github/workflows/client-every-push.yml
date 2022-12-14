@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - client
+      -
 jobs:
   test:
     runs-on: ubuntu-latest
