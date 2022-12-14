@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use('/', routes);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log('✅ Connected to port 3000');
 });
 
