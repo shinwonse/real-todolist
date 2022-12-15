@@ -10,7 +10,8 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use('/', routes);
+app.get('/', (req, res) => res.send('Hello World!'));
+app.use('/api', routes);
 
 app.listen(process.env.PORT, () => {
   console.log('✅ Connected to port 3000');
