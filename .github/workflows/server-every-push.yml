@@ -21,3 +21,10 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: real-todolist
+          yaml: |-
+            name: real-todolist
+            app: node.js
+            options:
+              git:
+                ref: ${{ github.ref }}
+                url: git@github.com:${{ github.repository }}.git
