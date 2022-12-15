@@ -9,8 +9,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect repository
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
       - name: Deploy
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-        run: curl -X $GET WEBHOOK_URL
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: real-todolist
+          yaml: |-
+            name: myapp
+            app: html
+            options:
+              git:
+                ref: ${{ github.ref }}
+                url: git@github.com:${{ github.repository }}.git
+              docbase: /docs
+
