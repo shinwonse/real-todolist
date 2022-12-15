@@ -13,9 +13,10 @@
     "nodemon": "^2.0.20"
   },
   "dependencies": {
-    "mongoose": "^6.8.0",
+    "axios": "^1.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^6.8.0"
   }
 }
