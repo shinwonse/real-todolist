@@ -27,5 +27,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
+      - name: Heroku Appear
+        run: heroku git:remote -a real-todolist
+
       - name: Deploy
         run: git subtree push --prefix server heroku main
