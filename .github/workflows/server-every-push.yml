@@ -23,7 +23,7 @@ jobs:
           project: real-todolist
           yaml: |-
             name: real-todolist
-            app: node.js
+            app: real-todolist
             options:
               git:
                 ref: ${{ github.ref }}
