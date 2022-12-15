@@ -9,9 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-        run: |
-          curl -X GET $WEBHOOK_URL
+      - echo: 'Hello World!'
+#      - uses: actions/checkout@v2
+#      - name: Deploy
+#        env:
+#          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+#        run: |
+#          curl -X GET $WEBHOOK_URL
