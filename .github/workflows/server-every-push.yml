@@ -16,17 +16,17 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
-            - name: Deploy
-              uses: cloudtype-github-actions/deploy@v1
-              with:
-                token: ${{ secrets.CLOUDTYPE_TOKEN }}
-                project: real-todolist
-                yaml: |-
-                  name: myapp
-                  app: html
-                  options:
-                    git:
-                      ref: ${{ github.ref }}
-                      url: git@github.com:${{ github.repository }}.git
-                    docbase: /docs
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: real-todolist
+          yaml: |-
+            name: myapp
+            app: html
+            options:
+              git:
+                ref: ${{ github.ref }}
+                url: git@github.com:${{ github.repository }}.git
+              docbase: /docs
 
