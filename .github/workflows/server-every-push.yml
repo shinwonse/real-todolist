@@ -9,22 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Connect repository
-        uses: cloudtype-github-actions/connect@v1
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          ghtoken: ${{ secrets.GHP_TOKEN }}
-      - name: Deploy
-        uses: cloudtype-github-actions/deploy@v1
-        with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: real-todolist
-          yaml: |-
-            name: real-todolist
-            app: node@16
-            options:
-              git:
-                ref: ${{ github.ref }}
-                url: git@github.com:${{ github.repository }}.git
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "real-todolist"
+          heroku_email: "sinwonse@gmail.com"
