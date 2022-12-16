@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-        run: curl -X $GET WEBHOOK_URL
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "real-todolist"
+          heroku_email: "sinwonse@gmail.com"
