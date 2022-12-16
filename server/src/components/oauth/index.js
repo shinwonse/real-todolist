@@ -1,5 +1,7 @@
 const axios = require('axios');
 const express = require('express');
+
+const { User } = require('../users/model');
 const router = express.Router();
 
 router.get('/kakao/callback', async (req, res) => {
@@ -18,21 +20,28 @@ router.get('/kakao/callback', async (req, res) => {
     },
   });
 
-  if ('access_token' in kakaoTokenRequest.data) {
-    const { access_token } = kakaoTokenRequest.data;
-    const kakaoUserRequest = await axios.get(
-      'https://kapi.kakao.com/v2/user/me',
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    res.send(kakaoUserRequest.data);
-  } else {
-    res.send('fail');
+  const { access_token } = kakaoTokenRequest.data;
+  const kakaoUserData = await axios.get('https://kapi.kakao.com/v2/user/me', {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const existingUser = await User.findOne({
+    nickname: kakaoUserData.data.properties.nickname,
+  });
+  if (!existingUser) {
+    const user = await User.create({
+      nickname: kakaoUserData.data.properties.nickname,
+    });
+    req.session.loggedIn = true;
+    req.session.loggedUser = user;
+    return res.redirect('/oauth/redirect');
   }
+  req.session.loggedIn = true;
+  req.session.loggedUser = existingUser;
+  return res.redirect('/oauth/redirect');
 });
 
 module.exports = router;
