@@ -37,11 +37,11 @@ router.get('/kakao/callback', async (req, res) => {
     });
     req.session.loggedIn = true;
     req.session.loggedUser = user;
-    return res.redirect('/oauth/redirect');
+    return res.redirect('http://localhost:8081');
   }
   req.session.loggedIn = true;
   req.session.loggedUser = existingUser;
-  return res.redirect('/oauth/redirect');
+  return res.redirect('http://localhost:8081');
 });
 
 module.exports = router;
