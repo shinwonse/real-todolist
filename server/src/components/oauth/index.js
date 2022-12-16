@@ -1,6 +1,7 @@
 const axios = require('axios');
 const express = require('express');
 
+const { CLIENT_REDIRECT_URI } = require('../../config/client');
 const { User } = require('../users/model');
 const router = express.Router();
 
@@ -37,11 +38,11 @@ router.get('/kakao/callback', async (req, res) => {
     });
     req.session.loggedIn = true;
     req.session.loggedUser = user;
-    return res.redirect('http://localhost:8081');
+    return res.redirect(CLIENT_REDIRECT_URI);
   }
   req.session.loggedIn = true;
   req.session.loggedUser = existingUser;
-  return res.redirect('http://localhost:8081');
+  return res.redirect(CLIENT_REDIRECT_URI);
 });
 
 module.exports = router;
