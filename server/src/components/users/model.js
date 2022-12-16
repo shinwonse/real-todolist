@@ -5,6 +5,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  toDos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ToDo',
+    },
+  ],
 });
 
 const User = mongoose.model('User', UserSchema);
