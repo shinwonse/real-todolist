@@ -1,8 +1,15 @@
 import PlusIcon from 'assets/icons/icon-plus.svg';
+import axios from 'axios';
 
 import Component from '../../core/Component';
 
 class TodoListPage extends Component {
+  setup() {
+    this.$state = {
+      todoList: axios.get('http://localhost:3000/api/users/신원세/todos'),
+    };
+  }
+
   template() {
     return `
       <div class='Todo__Wrapper'>
@@ -17,14 +24,7 @@ class TodoListPage extends Component {
         </header>
         <main class='Todo__Main'>
           <ul class='Todo__List'>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
+            
           </ul>
         </main>
       </div>
