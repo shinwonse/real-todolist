@@ -1,4 +1,6 @@
+import axios from 'axios';
 import Login from 'pages/Login';
+import login from 'pages/Login';
 import TodoList from 'pages/TodoList';
 
 const routes = [
@@ -28,7 +30,6 @@ class Router {
   }
 
   init() {
-    console.log('init');
     const { path, auth, component, redirect } = routes.find(
       (route) => route.path === location.pathname
     );
@@ -36,7 +37,7 @@ class Router {
       Router.push(redirect);
       return;
     }
-    if (path === '/') {
+    if (path === '/login') {
       return new Login(this.$app);
     }
     if (path === '/todolist') {
@@ -45,11 +46,12 @@ class Router {
   }
 
   static push(destination) {
-    const { path, auth, component } = routes.find(
+    const { path, auth, component, redirect } = routes.find(
       (route) => route.path === destination
     );
-    if (auth) {
-      console.log('인증이 필요함');
+    if (redirect) {
+      Router.push(redirect);
+      return;
     }
     history.pushState(null, null, path);
     const $app = document.querySelector('#app');
