@@ -1,12 +1,15 @@
 class Component {
   $target;
+  // $props;
   $state;
   constructor($target) {
     this.$target = $target;
+    // this.$props = $props;
     this.setup();
     this.render();
   }
   setup() {}
+  mounted() {}
   template() {
     return '';
   }
