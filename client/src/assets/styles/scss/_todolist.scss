@@ -84,6 +84,9 @@
   border: 3px solid black;
   border-radius: 10px;
   margin-right: 10px;
+  &:checked {
+    background-color: black;
+  }
 }
 
 .Todo__List--text {
