@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Login from 'pages/Login';
-import login from 'pages/Login';
 import TodoList from 'pages/TodoList';
 
 const routes = [
@@ -34,7 +33,14 @@ class Router {
       (route) => route.path === location.pathname
     );
     if (redirect) {
-      Router.push(redirect);
+      return Router.push(redirect);
+    }
+    if (auth) {
+      axios
+        .get(`http://localhost:3000/api/users`, { withCredentials: true })
+        .catch(() => {
+          Router.push('/login');
+        });
       return;
     }
     if (path === '/login') {

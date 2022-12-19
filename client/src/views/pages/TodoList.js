@@ -28,7 +28,9 @@ const checkTodo = () => {};
 class TodoListPage extends Component {
   setup() {
     this.$state = {
-      todoList: axios.get('http://localhost:3000/api/users/신원세/todos'),
+      user: axios.get(`http://localhost:3000/api/users`, {
+        withCredentials: true,
+      }),
     };
   }
 
