@@ -30,6 +30,9 @@ const config = {
       template: 'index.html',
     }),
     new webpack.EnvironmentPlugin(environmentVariables),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
   module: {
     rules: [
@@ -49,6 +52,7 @@ const config = {
   },
   resolve: {
     alias: {
+      process: 'process/browser',
       pages: path.resolve('./src/views/pages'),
       components: path.resolve('./src/views/components'),
       assets: path.resolve('./src/assets/'),
