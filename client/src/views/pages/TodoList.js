@@ -1,5 +1,4 @@
 import HamburgerIcon from 'assets/icons/icon-hamburger.svg';
-import MoreIcon from 'assets/icons/icon-more.svg';
 import PlusIcon from 'assets/icons/icon-plus.svg';
 import axios from 'axios';
 import HamburgerModal from 'components/HamburgerModal';
@@ -44,28 +43,14 @@ class TodoListPage extends Component {
             </button>
           </div>
           <form class='Todo__Input'>
-            <input class='Todo__Input--element' value='todo' type='text' placeholder='할 일을 입력하세요'/>
+            <input class='Todo__Input--element' type='text' placeholder='할 일을 입력하세요'/>
             <button class='Todo__Input--button'>
               <img alt='add' src=${PlusIcon} />
             </button>
           </form>
         </header>
         <main class='Todo__Main'>
-          <ul class='Todo__List'>
-            <li class='Todo__List--card'>
-              <input class='Todo__List--check' type='checkbox'/>
-              <span class='Todo__List--text'>hi</span>
-              <button class='Todo__List--modal-button'>
-                <img alt='more' src=${MoreIcon} />
-              </button>
-            </li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-            <li class='Todo__List--card'>hi</li>
-          </ul>
+          <ul class='Todo__List'></ul>
         </main>
         <div class='Modal__Position'></div>
       </div>
