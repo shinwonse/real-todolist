@@ -3,6 +3,24 @@ import LogoutIcon from 'assets/icons/icon-logout.svg';
 
 import Component from '../../core/Component';
 
+const closeModal = () => {
+  const modal = document.querySelector('.Modal');
+  if (modal) {
+    return modal.remove();
+  }
+};
+
+const logout = () => {
+  console.log('logout');
+};
+
+const openGitHub = () => {
+  window.open(
+    'https://github.com/shinwonse/real-todolist',
+    'real-todolist-github'
+  );
+};
+
 class HamburgerModal extends Component {
   template() {
     return `
@@ -23,19 +41,9 @@ class HamburgerModal extends Component {
   }
 
   setEvent() {
-    this.addEvent('click', '.Modal__Overlay', () => {
-      const modal = document.querySelector('.Modal');
-      modal.remove();
-    });
-    this.addEvent('click', '#logout', () => {
-      console.log('logout');
-    });
-    this.addEvent('click', '#github', () => {
-      window.open(
-        'https://github.com/shinwonse/real-todolist',
-        'real-todolist-github'
-      );
-    });
+    this.addEvent('click', '.Modal__Overlay', closeModal);
+    this.addEvent('click', '#logout', logout);
+    this.addEvent('click', '#github', openGitHub);
   }
 }
 
