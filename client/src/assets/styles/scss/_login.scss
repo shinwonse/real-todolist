@@ -14,7 +14,8 @@
   padding: 150px 0;
   width: 50%;
   height: 500px;
-  border: 0.5px solid black;
+  border: 1px solid #fff;
+  border-radius: 20px;
   background-color: #ffffff;
 }
 
@@ -22,4 +23,8 @@
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 42px;
+}
+
+.Login__Button {
+  cursor: grab;
 }
