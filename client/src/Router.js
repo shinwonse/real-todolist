@@ -5,17 +5,13 @@ import TodoList from 'pages/TodoList';
 const routes = [
   {
     path: '/',
-    redirect: '/todolist',
+    component: TodoList,
+    auth: true,
   },
   {
     path: '/login',
     component: Login,
     auth: false,
-  },
-  {
-    path: '/todolist',
-    component: TodoList,
-    auth: true,
   },
 ];
 
@@ -29,38 +25,38 @@ class Router {
   }
 
   init() {
-    const { path, auth, component, redirect } = routes.find(
+    const { path, auth, component } = routes.find(
       (route) => route.path === location.pathname
     );
-    if (redirect) {
-      return Router.push(redirect);
-    }
     if (auth) {
       axios
         .get(`http://localhost:3000/api/users`, { withCredentials: true })
         .catch(() => {
           Router.push('/login');
         });
-      return;
     }
     if (path === '/login') {
-      return new Login(this.$app);
+      return new component(this.$app);
     }
-    if (path === '/todolist') {
-      return new TodoList(this.$app);
+    if (path === '/') {
+      return new component(this.$app);
     }
   }
 
   static push(destination) {
-    const { path, auth, component, redirect } = routes.find(
+    const $app = document.querySelector('#app');
+    const { path, auth, component } = routes.find(
       (route) => route.path === destination
     );
-    if (redirect) {
-      Router.push(redirect);
-      return;
+    if (auth) {
+      axios
+        .get(`http://localhost:3000/api/users`, { withCredentials: true })
+        .catch(() => {
+          Router.push('/login');
+        });
+      return new component($app);
     }
     history.pushState(null, null, path);
-    const $app = document.querySelector('#app');
     return new component($app);
   }
 }
