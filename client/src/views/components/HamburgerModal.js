@@ -1,7 +1,9 @@
 import GitHubIcon from 'assets/icons/icon-github.svg';
 import LogoutIcon from 'assets/icons/icon-logout.svg';
+import axios from 'axios';
 
 import Component from '../../core/Component';
+import Router from '../../Router';
 
 const closeModal = () => {
   const modal = document.querySelector('.Modal');
@@ -11,7 +13,14 @@ const closeModal = () => {
 };
 
 const logout = () => {
-  console.log('logout');
+  axios
+    .get('http://localhost:3000/api/users/logout', {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log(res);
+      Router.push('/login');
+    });
 };
 
 const openGitHub = () => {
