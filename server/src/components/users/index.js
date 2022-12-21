@@ -12,12 +12,14 @@ router.get('/', (req, res) => {
   res.status(401).send('로그인이 필요합니다.');
 });
 
-router.post('/:nickname/logout', (req, res) => {
-  if (req.session.loggedIn) {
-    req.session.destroy();
-    console.log('로그아웃 되었습니다.');
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.clearCookie('auth');
     return res.status(200).send('로그아웃 되었습니다.');
-  }
+  });
 });
 
 router.get('/:nickname', (req, res) => {
