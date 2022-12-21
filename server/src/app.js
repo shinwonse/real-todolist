@@ -36,18 +36,16 @@ const redisClient = redis.createClient({
 });
 
 const sessionOption = {
+  store: new RedisStore({ client: redisClient, prefix: 'auth' }),
+  secret: 'secret',
   resave: false,
   saveUninitialized: true,
-  secret: 'secret',
   cookie: {
-    httpOnly: true,
     secure: false,
+    httpOnly: true,
   },
   name: 'auth',
-  store: new RedisStore({ client: redisClient, prefix: 'auth' }),
 };
-
-app.use(session(sessionOption));
 
 (async () => {
   await redisClient.connect();
