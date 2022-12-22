@@ -1,6 +1,7 @@
 import DeleteIcon from 'assets/icons/icon-delete.svg';
 import EditIcon from 'assets/icons/icon-edit.svg';
 import SubmitIcon from 'assets/icons/icon-submit.svg';
+import axios from 'axios';
 
 import Component from '../../core/Component';
 
@@ -21,7 +22,13 @@ const startEdit = () => {
   `;
 };
 
-const deleteTodo = () => {};
+const deleteTodo = (index) => {
+  axios.delete(
+    'http://localhost:3000/api/todos',
+    { deleteIndex: index },
+    { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+  );
+};
 
 class MoreOptionModal extends Component {
   template() {
