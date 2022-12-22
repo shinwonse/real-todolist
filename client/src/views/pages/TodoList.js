@@ -1,17 +1,12 @@
 import HamburgerIcon from 'assets/icons/icon-hamburger.svg';
+import MoreIcon from 'assets/icons/icon-more.svg';
 import PlusIcon from 'assets/icons/icon-plus.svg';
 import axios from 'axios';
 import HamburgerModal from 'components/HamburgerModal';
 import MoreOptionModal from 'components/MoreOptionModal';
+import TodoCard from 'components/TodoCard';
 
 import Component from '../../core/Component';
-
-const addTodo = (e) => {
-  e.preventDefault();
-  const toDoInput = document.querySelector('.Todo__Input input');
-  const newToDo = toDoInput.value;
-  console.log(newToDo);
-};
 
 const openHamburgerModal = () => {
   const target = document.querySelector('.Modal__Position');
@@ -23,23 +18,34 @@ const openMoreOptionModal = () => {
   return new MoreOptionModal(target);
 };
 
+const addTodoCard = () => {
+  const target = document.querySelector('.Todo__List');
+  return new TodoCard(target);
+};
+
 const checkTodo = () => {};
 
+const fetchUser = async () => {
+  const { data } = await axios.get('http://localhost:3000/api/users', {
+    withCredentials: true,
+  });
+  return data;
+};
+
 class TodoListPage extends Component {
-  setup() {
+  async setup() {
     this.$state = {
-      user: axios.get(`http://localhost:3000/api/users`, {
-        withCredentials: true,
-      }),
+      user: await fetchUser(),
     };
   }
 
   template() {
+    const { nickname, toDos } = this.$state.user;
     return `
       <div class='Todo__Wrapper'>
         <header class='Todo__Header'>
           <div class='Todo__Title'>
-            <h1>Todo List</h1>
+            <h1>${nickname} Todo List</h1>
             <button class='Todo__Title--button'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
@@ -52,17 +58,45 @@ class TodoListPage extends Component {
           </form>
         </header>
         <main class='Todo__Main'>
-          <ul class='Todo__List'></ul>
+          <ul class='Todo__List'>
+            ${toDos
+              .map(
+                (todo) => `
+              <li class='Todo__List--card'>
+                <input class='Todo__List--check' type='checkbox'/>
+                <span class='Todo__List--text'>${todo}</span>
+                <button class='Todo__List--modal-button'>
+                  <img alt='more' src=${MoreIcon} />
+                </button>
+              </li>`
+              )
+              .join('')}
+          </ul>
         </main>
         <div class='Modal__Position'></div>
       </div>
     `;
   }
 
+  addTodo = async (e) => {
+    e.preventDefault();
+    const toDoInput = document.querySelector('.Todo__Input input');
+    const newToDo = toDoInput.value;
+    axios.post(
+      'http://localhost:3000/api/users/todo',
+      { text: newToDo },
+      {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    await this.render();
+  };
+
   setEvent() {
-    this.addEvent('submit', '.Todo__Input', addTodo);
     this.addEvent('click', '.Todo__Title--button', openHamburgerModal);
     this.addEvent('click', '.Todo__List--modal-button', openMoreOptionModal);
+    this.addEvent('submit', '.Todo__Input', this.addTodo);
     this.addEvent('click', '.Todo__List--check', checkTodo);
   }
 }
