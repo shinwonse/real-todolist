@@ -28,13 +28,13 @@ class Router {
     const { path, auth, component } = routes.find(
       (route) => route.path === location.pathname
     );
-    if (auth) {
-      axios
-        .get(`http://localhost:3000/api/users`, { withCredentials: true })
-        .catch(() => {
-          Router.push('/login');
-        });
-    }
+    // if (auth) {
+    //   axios
+    //     .get(`http://localhost:3000/api/users`, { withCredentials: true })
+    //     .catch(() => {
+    //       Router.push('/login');
+    //     });
+    // }
     if (path === '/login') {
       return new component(this.$app);
     }
@@ -49,12 +49,12 @@ class Router {
       (route) => route.path === destination
     );
     if (auth) {
-      axios
-        .get(`http://localhost:3000/api/users`, { withCredentials: true })
-        .catch(() => {
-          Router.push('/login');
-        });
-      return new component($app);
+      // axios
+      //   .get(`http://localhost:3000/api/users`, { withCredentials: true })
+      //   .catch(() => {
+      //     Router.push('/login');
+      //   });
+      // return new component($app);
     }
     history.pushState(null, null, path);
     return new component($app);

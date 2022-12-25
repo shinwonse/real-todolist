@@ -41,11 +41,12 @@ class TodoListPage extends Component {
 
   template() {
     const { nickname, toDos } = this.$state.user;
+    console.log(toDos);
     return `
       <div class='Todo__Wrapper'>
         <header class='Todo__Header'>
           <div class='Todo__Title'>
-            <h1>${nickname} Todo List</h1>
+            <h1>Todo List</h1>
             <button class='Todo__Title--button'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
@@ -64,11 +65,12 @@ class TodoListPage extends Component {
                 (todo) => `
               <li class='Todo__List--card'>
                 <input class='Todo__List--check' type='checkbox'/>
-                <span class='Todo__List--text'>${todo}</span>
+                <span class='Todo__List--text'>${todo.text}</span>
                 <button class='Todo__List--modal-button'>
                   <img alt='more' src=${MoreIcon} />
                 </button>
-              </li>`
+              </li>
+            `
               )
               .join('')}
           </ul>
@@ -82,8 +84,8 @@ class TodoListPage extends Component {
     e.preventDefault();
     const toDoInput = document.querySelector('.Todo__Input input');
     const newToDo = toDoInput.value;
-    axios.post(
-      'http://localhost:3000/api/users/todo',
+    await axios.post(
+      'http://localhost:3000/api/todos',
       { text: newToDo },
       {
         withCredentials: true,

@@ -22,11 +22,13 @@ const startEdit = () => {
   `;
 };
 
-const deleteTodo = (index) => {
-  axios.delete(
-    'http://localhost:3000/api/todos',
-    { deleteIndex: index },
-    { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+const deleteTodo = async (id) => {
+  await axios.delete(
+    `http://localhost:3000/api/todos/63a838365e25479c2ef410b5`,
+    {
+      withCredentials: true,
+      headers: { 'Content-Type': 'application/json' },
+    }
   );
 };
 
