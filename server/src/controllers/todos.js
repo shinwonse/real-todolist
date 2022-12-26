@@ -1,13 +1,9 @@
 const { Todo } = require('../models/todo');
 const { User } = require('../models/user');
 
-exports.getTodos = (req, res) => {
-  if (req.session.loggedIn) {
-    return res.send('getTodos!!');
-  }
-  res.send('로그인이 필요합니다.');
-};
-
+/**
+ * 새로운 투두를 등록한다.
+ */
 exports.postTodo = async (req, res) => {
   await Todo.create({
     text: req.body.text,
@@ -28,14 +24,15 @@ exports.postTodo = async (req, res) => {
     });
 };
 
+/**
+ * 투두를 하나 삭제한다.
+ * */
 exports.deleteTodo = (req, res) => {
   const { id } = req.params;
-  Todo.deleteOne({ _id: id })
-    .then((output) => {
-      res.send(output);
-    })
-    .catch((e) => {
-      res.json(e);
-    });
+  res.send(id);
 };
+
+/**
+ * 투두 하나를 수정한다.및
+ * */
 exports.putTodo = (req, res) => {};
