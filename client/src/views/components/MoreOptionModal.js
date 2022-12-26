@@ -7,7 +7,9 @@ import Component from '../../core/Component';
 
 const closeModal = () => {
   const modal = document.querySelector('.Modal');
-  modal.remove();
+  if (modal) {
+    modal.remove();
+  }
 };
 
 const startEdit = () => {
