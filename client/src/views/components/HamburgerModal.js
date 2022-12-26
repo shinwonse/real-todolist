@@ -17,8 +17,7 @@ const logout = () => {
     .get('http://localhost:3000/api/users/logout', {
       withCredentials: true,
     })
-    .then((res) => {
-      console.log(res);
+    .then(() => {
       Router.push('/login');
     });
 };
