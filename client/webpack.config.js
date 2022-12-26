@@ -53,6 +53,7 @@ const config = {
   resolve: {
     alias: {
       process: 'process/browser',
+      utils: path.resolve('./src/utils'),
       core: path.resolve('./src/core'),
       pages: path.resolve('./src/views/pages'),
       components: path.resolve('./src/views/components'),
