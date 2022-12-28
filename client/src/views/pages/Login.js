@@ -1,7 +1,6 @@
-import KakaoLogin from 'assets/images/kakao_login_medium_wide.png';
-
-import { KAKAO_AUTHORIZATION_URL } from '../../constants';
-import Component from '../../core/Component';
+import { kakaoLogin } from '@/api/auth';
+import KakaoLogin from '@/assets/images/kakao_login_medium_wide.png';
+import Component from '@/core/Component';
 
 class LoginPage extends Component {
   template() {
@@ -18,9 +17,7 @@ class LoginPage extends Component {
   }
 
   setEvent() {
-    this.addEvent('click', '.Login__Button', () => {
-      location.href = KAKAO_AUTHORIZATION_URL;
-    });
+    this.addEvent('click', '.Login__Button', kakaoLogin);
   }
 }
 
