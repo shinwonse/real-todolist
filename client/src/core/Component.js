@@ -1,4 +1,4 @@
-import { bind } from 'utils';
+import { bind } from '@/utils';
 
 class Component {
   $target;
@@ -19,6 +19,7 @@ class Component {
     await this.beforeMount();
     this.render();
     await this.mounted();
+    this.setEvent();
   }
 
   /* lifecycles */
