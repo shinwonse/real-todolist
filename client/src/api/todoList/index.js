@@ -18,6 +18,10 @@ export const postTodo = async (newToDo) => {
   );
 };
 
-export const deleteTodo = async (id) => {};
+export const deleteTodo = async (id) => {
+  await axios.delete(`http://localhost:3000/api/todos/${id}`, {
+    withCredentials: true,
+  });
+};
 
 export const putTodo = async (id) => {};
