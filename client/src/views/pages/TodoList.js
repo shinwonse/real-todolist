@@ -32,7 +32,7 @@ class TodoListPage extends Component {
           </form>
         </header>
         <main class='Todo__Main'>
-          <ul class='Todo__List'></ul>
+          
         </main>
         <div class='Modal__Position'></div>
       </div>
@@ -42,13 +42,10 @@ class TodoListPage extends Component {
   async mounted() {
     const result = await fetchUser();
     this.setState({ user: result, isLoading: false });
-    const $todoList = document.querySelector('.Todo__List');
     const { toDos } = this.state.user;
-    toDos.map((todo) => {
-      new TodoCard($todoList, {
-        todo,
-        openMoreOptionModal: this.openMoreOptionModal,
-      });
+    const $main = document.querySelector('.Todo__Main');
+    new TodoCard($main, {
+      toDos,
     });
   }
 
@@ -73,10 +70,10 @@ class TodoListPage extends Component {
     return new HamburgerModal($modalPosition, {});
   }
 
-  openMoreOptionModal(todo) {
-    const $modalPosition = document.querySelector('.Modal__Position');
-    return new MoreOptionModal($modalPosition, todo);
-  }
+  // openMoreOptionModal(todo) {
+  //   const $modalPosition = document.querySelector('.Modal__Position');
+  //   return new MoreOptionModal($modalPosition, todo);
+  // }
 }
 
 export default TodoListPage;

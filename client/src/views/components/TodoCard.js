@@ -1,12 +1,12 @@
 import MoreIcon from '@/assets/icons/icon-more.svg';
 import Component from '@/core/Component';
 import { bind } from '@/utils';
+import MoreOptionModal from '@/views/components/MoreOptionModal';
 
 class TodoCard extends Component {
   initState() {
     return {
-      todo: null,
-      isCompleted: false,
+      toDos: this.props.toDos,
     };
   }
 
@@ -18,22 +18,37 @@ class TodoCard extends Component {
 
   template() {
     return `
-      <li class='Todo__List--card'>
-        <input class='Todo__List--check' type='checkbox'/>
-        <span class='Todo__List--text'>{{ this.props?.todo.text }}</span>
-        <button class='Todo__List--modal-button'>
-          <img alt='more' src=${MoreIcon} />
-        </button>
-      </li>
+      <ul class='Todo__List'>
+        ${this.state.toDos
+          .map(
+            (todo) => `
+              <li class='Todo__List--card' data-todo-id=${todo._id}>
+                <input class='Todo__List--check' type='checkbox'/>
+                <span class='Todo__List--text'>${todo.text}</span>
+                <button class='Todo__List--modal-button'>
+                  <img alt='more' src=${MoreIcon} />
+                </button>
+              </li>
+            `
+          )
+          .join('')}
+      </ul>
     `;
   }
 
   setEvent() {
-    const { openMoreOptionModal } = this.props;
-
-    this.addEvent('click', '.Todo__List--modal-button', () => {
-      openMoreOptionModal(this.props.todo);
+    this.addEvent('click', '.Todo__List--modal-button', (e) => {
+      const text = document.querySelector('.Todo__List--text').innerText;
+      this.openMoreOptionModal(
+        e.target.closest('[data-todo-id]').dataset.todoId,
+        text
+      );
     });
+  }
+
+  openMoreOptionModal(id) {
+    const $modalPosition = document.querySelector('.Modal__Position');
+    return new MoreOptionModal($modalPosition, id);
   }
 }
 
