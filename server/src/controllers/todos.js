@@ -27,9 +27,22 @@ exports.postTodo = async (req, res) => {
 /**
  * 투두를 하나 삭제한다.
  * */
-exports.deleteTodo = (req, res) => {
+exports.deleteTodo = async (req, res) => {
   const { id } = req.params;
-  res.send(id);
+  await Todo.deleteOne({ _id: id })
+    .then((todo) => {
+      return User.findOneAndUpdate(
+        { _id: req.session.loggedUser._id },
+        { $pull: { toDos: todo._id } },
+        { new: true }
+      );
+    })
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((e) => {
+      res.json(e);
+    });
 };
 
 /**
