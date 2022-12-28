@@ -1,9 +1,16 @@
+import { deleteTodo } from '@/api/todoList';
 import DeleteIcon from '@/assets/icons/icon-delete.svg';
 import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
 import Component from '@/core/Component';
 
 class MoreOptionModal extends Component {
+  initState() {
+    return {
+      id: this.props,
+    };
+  }
+
   template() {
     return `
       <div class='Modal'>
@@ -44,7 +51,7 @@ class MoreOptionModal extends Component {
   setEvent() {
     this.addEvent('click', '.Modal__Overlay', this.closeModal);
     this.addEvent('click', '#edit', this.startEdit);
-    // this.addEvent('click', '#delete', this.deleteTodo);
+    this.addEvent('click', '#delete', () => deleteTodo(this.state.id));
   }
 }
 
