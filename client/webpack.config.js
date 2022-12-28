@@ -52,13 +52,16 @@ const config = {
   },
   resolve: {
     alias: {
-      process: 'process/browser',
-      utils: path.resolve('./src/utils'),
-      core: path.resolve('./src/core'),
-      pages: path.resolve('./src/views/pages'),
-      components: path.resolve('./src/views/components'),
-      assets: path.resolve('./src/assets/'),
+      '@': path.join(__dirname, 'src'),
     },
+    // alias: {
+    //   process: 'process/browser',
+    //   utils: path.resolve('./src/utils'),
+    //   core: path.resolve('./src/core'),
+    //   pages: path.resolve('./src/views/pages'),
+    //   components: path.resolve('./src/views/components'),
+    //   assets: path.resolve('./src/assets/'),
+    // },
   },
 };
 
