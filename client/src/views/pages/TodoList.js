@@ -1,36 +1,10 @@
-import HamburgerIcon from 'assets/icons/icon-hamburger.svg';
-import MoreIcon from 'assets/icons/icon-more.svg';
-import PlusIcon from 'assets/icons/icon-plus.svg';
-import axios from 'axios';
-import HamburgerModal from 'components/HamburgerModal';
-import MoreOptionModal from 'components/MoreOptionModal';
-import TodoCard from 'components/TodoCard';
-
-import Component from '../../core/Component';
-
-const openHamburgerModal = () => {
-  const target = document.querySelector('.Modal__Position');
-  return new HamburgerModal(target);
-};
-
-const openMoreOptionModal = () => {
-  const target = document.querySelector('.Modal__Position');
-  return new MoreOptionModal(target);
-};
-
-const addTodoCard = () => {
-  const target = document.querySelector('.Todo__List');
-  return new TodoCard(target);
-};
-
-const checkTodo = () => {};
-
-const fetchUser = async () => {
-  const { data } = await axios.get('http://localhost:3000/api/users', {
-    withCredentials: true,
-  });
-  return data;
-};
+import { postTodo, fetchUser } from '@/api/todoList';
+import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
+import PlusIcon from '@/assets/icons/icon-plus.svg';
+import Component from '@/core/Component';
+import HamburgerModal from '@/views/components/HamburgerModal';
+import MoreOptionModal from '@/views/components/MoreOptionModal';
+import TodoCard from '@/views/components/TodoCard';
 
 class TodoListPage extends Component {
   async setup() {
@@ -40,13 +14,11 @@ class TodoListPage extends Component {
   }
 
   template() {
-    const { nickname, toDos } = this.$state.user;
-    console.log(toDos);
     return `
       <div class='Todo__Wrapper'>
         <header class='Todo__Header'>
           <div class='Todo__Title'>
-            <h1>Todo List</h1>
+            <h1>{{ this.state.user?.nickname }}의 Todo List</h1>
             <button class='Todo__Title--button'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
@@ -59,47 +31,50 @@ class TodoListPage extends Component {
           </form>
         </header>
         <main class='Todo__Main'>
-          <ul class='Todo__List'>
-            ${toDos
-              .map(
-                (todo) => `
-              <li class='Todo__List--card'>
-                <input class='Todo__List--check' type='checkbox'/>
-                <span class='Todo__List--text'>${todo.text}</span>
-                <button class='Todo__List--modal-button'>
-                  <img alt='more' src=${MoreIcon} />
-                </button>
-              </li>
-            `
-              )
-              .join('')}
-          </ul>
+          <ul class='Todo__List'></ul>
         </main>
         <div class='Modal__Position'></div>
       </div>
     `;
   }
 
-  addTodo = async (e) => {
+  async mounted() {
+    const result = await fetchUser();
+    this.setState({ user: result, isLoading: false });
+    const $todoList = document.querySelector('.Todo__List');
+    const { toDos } = this.state.user;
+    toDos.map((todo) => {
+      new TodoCard($todoList, {
+        todo,
+        openMoreOptionModal: this.openMoreOptionModal,
+      });
+    });
+  }
+
+  setEvent() {
+    this.addEvent('click', '.Todo__Title--button', this.openHamburgerModal);
+    this.addEvent('submit', '.Todo__Input', this.submitTodo);
+    this.addEvent('click', '.Todo__List--check', this.checkTodo);
+  }
+
+  async submitTodo(e) {
     e.preventDefault();
     const toDoInput = document.querySelector('.Todo__Input input');
     const newToDo = toDoInput.value;
-    await axios.post(
-      'http://localhost:3000/api/todos',
-      { text: newToDo },
-      {
-        withCredentials: true,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    await postTodo(newToDo);
     await this.render();
-  };
+  }
 
-  setEvent() {
-    this.addEvent('click', '.Todo__Title--button', openHamburgerModal);
-    this.addEvent('click', '.Todo__List--modal-button', openMoreOptionModal);
-    this.addEvent('submit', '.Todo__Input', this.addTodo);
-    this.addEvent('click', '.Todo__List--check', checkTodo);
+  checkTodo() {}
+
+  openHamburgerModal() {
+    const $modalPosition = document.querySelector('.Modal__Position');
+    return new HamburgerModal($modalPosition, {});
+  }
+
+  openMoreOptionModal(todo) {
+    const $modalPosition = document.querySelector('.Modal__Position');
+    return new MoreOptionModal($modalPosition, todo);
   }
 }
 
