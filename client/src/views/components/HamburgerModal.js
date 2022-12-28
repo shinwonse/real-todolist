@@ -1,33 +1,7 @@
-import GitHubIcon from 'assets/icons/icon-github.svg';
-import LogoutIcon from 'assets/icons/icon-logout.svg';
-import axios from 'axios';
-
-import Component from '../../core/Component';
-import Router from '../../Router';
-
-const closeModal = () => {
-  const modal = document.querySelector('.Modal');
-  if (modal) {
-    return modal.remove();
-  }
-};
-
-const logout = () => {
-  axios
-    .get('http://localhost:3000/api/users/logout', {
-      withCredentials: true,
-    })
-    .then(() => {
-      Router.push('/login');
-    });
-};
-
-const openGitHub = () => {
-  window.open(
-    'https://github.com/shinwonse/real-todolist',
-    'real-todolist-github'
-  );
-};
+import { logout } from '@/api/auth';
+import GitHubIcon from '@/assets/icons/icon-github.svg';
+import LogoutIcon from '@/assets/icons/icon-logout.svg';
+import Component from '@/core/Component';
 
 class HamburgerModal extends Component {
   template() {
@@ -49,9 +23,23 @@ class HamburgerModal extends Component {
   }
 
   setEvent() {
-    this.addEvent('click', '.Modal__Overlay', closeModal);
+    this.addEvent('click', '.Modal__Overlay', this.closeModal);
     this.addEvent('click', '#logout', logout);
-    this.addEvent('click', '#github', openGitHub);
+    this.addEvent('click', '#github', this.openGitHub);
+  }
+
+  openGitHub() {
+    window.open(
+      'https://github.com/shinwonse/real-todolist',
+      'real-todolist-github'
+    );
+  }
+
+  closeModal() {
+    const modal = document.querySelector('.Modal');
+    if (modal) {
+      return modal.remove();
+    }
   }
 }
 
