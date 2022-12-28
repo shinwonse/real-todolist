@@ -1,7 +1,9 @@
 const path = require('path');
 
+// eslint-disable-next-line import/order
 const dotenv = require('dotenv');
 dotenv.config();
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
