@@ -7,9 +7,10 @@ import MoreOptionModal from '@/views/components/MoreOptionModal';
 import TodoCard from '@/views/components/TodoCard';
 
 class TodoListPage extends Component {
-  async setup() {
-    this.$state = {
-      user: await fetchUser(),
+  initState() {
+    return {
+      user: null,
+      isLoading: true,
     };
   }
 
