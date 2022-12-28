@@ -1,6 +1,5 @@
-import axios from 'axios';
-import Login from 'pages/Login';
-import TodoList from 'pages/TodoList';
+import Login from '@/views/pages/Login';
+import TodoList from '@/views/pages/TodoList';
 
 const routes = [
   {
