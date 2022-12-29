@@ -1,4 +1,4 @@
-import { deleteTodo, fetchUser } from '@/api/todoList';
+import { deleteTodo, fetchUser, putTodo } from '@/api/todoList';
 import DeleteIcon from '@/assets/icons/icon-delete.svg';
 import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
@@ -30,16 +30,32 @@ class MoreOptionModal extends Component {
     `;
   }
 
-  startEdit() {
+  startEdit(id) {
     const contentDiv = document.querySelector('.Modal__Content');
     contentDiv.innerHTML = `
       <form class='Modal__Form'>
-        <input type='text' class='Modal__Input' placeholder='수정할 할 일을 입력하세요.'/>
+        <input class='Modal__Input' type='text' placeholder='수정할 할 일을 입력하세요.'/>
         <button class='Modal__Button' type='submit' class='Modal__Submit'>
           <img class='Modal__Icon--edit' alt='submit' src=${SubmitIcon} />
         </button>
       </form>
     `;
+    this.addEvent('submit', '.Modal__Form', async (e) => {
+      e.preventDefault();
+      const input = document.querySelector('.Modal__Input');
+      const newContent = input.value;
+      await putTodo({
+        id,
+        isCompleted: false,
+        text: newContent,
+      });
+      const data = await fetchUser();
+      this.setState({ user: data, isLoading: false });
+      this.closeModal();
+      const { toDos } = this.state.user;
+      const $main = document.querySelector('.Todo__Main');
+      new TodoCard($main, { toDos });
+    });
   }
 
   closeModal() {
@@ -61,7 +77,7 @@ class MoreOptionModal extends Component {
 
   setEvent() {
     this.addEvent('click', '.Modal__Overlay', this.closeModal);
-    this.addEvent('click', '#edit', this.startEdit);
+    this.addEvent('click', '#edit', () => this.startEdit(this.state.id));
     this.addEvent('click', '#delete', () =>
       this.clickDeleteButton(this.state.id)
     );
