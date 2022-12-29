@@ -1,4 +1,4 @@
-import { postTodo, fetchUser, putTodo } from '@/api/todoList';
+import { postTodo, fetchUser } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import Component from '@/core/Component';
