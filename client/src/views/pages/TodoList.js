@@ -1,4 +1,4 @@
-import { postTodo, fetchUser } from '@/api/todoList';
+import { postTodo, fetchUser, putTodo } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import Component from '@/core/Component';
@@ -49,7 +49,6 @@ class TodoListPage extends Component {
   setEvent() {
     this.addEvent('click', '.Todo__Title--button', this.openHamburgerModal);
     this.addEvent('submit', '.Todo__Input', this.submitTodo.bind(this));
-    this.addEvent('click', '.Todo__List--check', this.checkTodo);
   }
 
   async submitTodo(e) {
@@ -66,8 +65,6 @@ class TodoListPage extends Component {
       toDos,
     });
   }
-
-  checkTodo() {}
 
   openHamburgerModal() {
     const $modalPosition = document.querySelector('.Modal__Position');
