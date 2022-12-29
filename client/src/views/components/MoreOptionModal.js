@@ -1,8 +1,10 @@
-import { deleteTodo } from '@/api/todoList';
+import { deleteTodo, fetchUser } from '@/api/todoList';
 import DeleteIcon from '@/assets/icons/icon-delete.svg';
 import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
 import Component from '@/core/Component';
+import TodoCard from '@/views/components/TodoCard';
+import TodoList from '@/views/pages/TodoList';
 
 class MoreOptionModal extends Component {
   initState() {
@@ -48,10 +50,22 @@ class MoreOptionModal extends Component {
     }
   };
 
+  async clickDeleteButton(id) {
+    await deleteTodo(id);
+    const data = await fetchUser();
+    this.setState({ user: data, isLoading: false });
+    this.closeModal();
+    const { toDos } = this.state.user;
+    const $main = document.querySelector('.Todo__Main');
+    new TodoCard($main, { toDos });
+  }
+
   setEvent() {
     this.addEvent('click', '.Modal__Overlay', this.closeModal);
     this.addEvent('click', '#edit', this.startEdit);
-    this.addEvent('click', '#delete', () => deleteTodo(this.state.id));
+    this.addEvent('click', '#delete', () =>
+      this.clickDeleteButton(this.state.id)
+    );
   }
 }
 
