@@ -3,7 +3,6 @@ import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import Component from '@/core/Component';
 import HamburgerModal from '@/views/components/HamburgerModal';
-import MoreOptionModal from '@/views/components/MoreOptionModal';
 import TodoCard from '@/views/components/TodoCard';
 
 class TodoListPage extends Component {
@@ -31,9 +30,7 @@ class TodoListPage extends Component {
             </button>
           </form>
         </header>
-        <main class='Todo__Main'>
-          
-        </main>
+        <main class='Todo__Main'></main>
         <div class='Modal__Position'></div>
       </div>
     `;
@@ -51,7 +48,7 @@ class TodoListPage extends Component {
 
   setEvent() {
     this.addEvent('click', '.Todo__Title--button', this.openHamburgerModal);
-    this.addEvent('submit', '.Todo__Input', this.submitTodo);
+    this.addEvent('submit', '.Todo__Input', this.submitTodo.bind(this));
     this.addEvent('click', '.Todo__List--check', this.checkTodo);
   }
 
@@ -59,8 +56,15 @@ class TodoListPage extends Component {
     e.preventDefault();
     const toDoInput = document.querySelector('.Todo__Input input');
     const newToDo = toDoInput.value;
+    toDoInput.value = '';
     await postTodo(newToDo);
-    await this.render();
+    const data = await fetchUser();
+    this.setState({ user: data, isLoading: false });
+    const { toDos } = this.state.user;
+    const $main = document.querySelector('.Todo__Main');
+    new TodoCard($main, {
+      toDos,
+    });
   }
 
   checkTodo() {}
@@ -69,11 +73,6 @@ class TodoListPage extends Component {
     const $modalPosition = document.querySelector('.Modal__Position');
     return new HamburgerModal($modalPosition, {});
   }
-
-  // openMoreOptionModal(todo) {
-  //   const $modalPosition = document.querySelector('.Modal__Position');
-  //   return new MoreOptionModal($modalPosition, todo);
-  // }
 }
 
 export default TodoListPage;
