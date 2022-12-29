@@ -4,7 +4,6 @@ import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
 import Component from '@/core/Component';
 import TodoCard from '@/views/components/TodoCard';
-import TodoList from '@/views/pages/TodoList';
 
 class MoreOptionModal extends Component {
   initState() {
@@ -31,24 +30,24 @@ class MoreOptionModal extends Component {
     `;
   }
 
-  startEdit = () => {
+  startEdit() {
     const contentDiv = document.querySelector('.Modal__Content');
     contentDiv.innerHTML = `
-    <form class='Modal__Form'>
-      <input type='text' class='Modal__Input' placeholder='수정할 할 일을 입력하세요.'/>
-      <button class='Modal__Button' type='submit' class='Modal__Submit'>
-        <img class='Modal__Icon--edit' alt='submit' src=${SubmitIcon} />
-      </button>
-    </form>
-  `;
-  };
+      <form class='Modal__Form'>
+        <input type='text' class='Modal__Input' placeholder='수정할 할 일을 입력하세요.'/>
+        <button class='Modal__Button' type='submit' class='Modal__Submit'>
+          <img class='Modal__Icon--edit' alt='submit' src=${SubmitIcon} />
+        </button>
+      </form>
+    `;
+  }
 
-  closeModal = () => {
+  closeModal() {
     const modal = document.querySelector('.Modal');
     if (modal) {
       modal.remove();
     }
-  };
+  }
 
   async clickDeleteButton(id) {
     await deleteTodo(id);
