@@ -46,6 +46,20 @@ exports.deleteTodo = async (req, res) => {
 };
 
 /**
- * 투두 하나를 수정한다.및
+ * 투두 하나를 수정한다.
  * */
-exports.putTodo = (req, res) => {};
+exports.putTodo = async (req, res) => {
+  const { id } = req.params;
+  const { text, isCompleted } = req.body;
+  await Todo.findOneAndUpdate(
+    { _id: id },
+    { text, completed: isCompleted },
+    { new: true }
+  )
+    .then((todo) => {
+      res.send(todo);
+    })
+    .catch((e) => {
+      res.json(e);
+    });
+};
