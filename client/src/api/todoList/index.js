@@ -24,4 +24,13 @@ export const deleteTodo = async (id) => {
   });
 };
 
-export const putTodo = async (id) => {};
+export const putTodo = async (id, isCompleted, text) => {
+  await axios.put(
+    `http://localhost:3000/api/todos/${id}`,
+    { isCompleted, text },
+    {
+      withCredentials: true,
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+};
