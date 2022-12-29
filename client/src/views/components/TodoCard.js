@@ -1,6 +1,5 @@
 import MoreIcon from '@/assets/icons/icon-more.svg';
 import Component from '@/core/Component';
-import { bind } from '@/utils';
 import MoreOptionModal from '@/views/components/MoreOptionModal';
 
 class TodoCard extends Component {
@@ -8,12 +7,6 @@ class TodoCard extends Component {
     return {
       toDos: this.props.toDos,
     };
-  }
-
-  render() {
-    const template = this.template();
-    const boundTemplate = bind.apply(this, [template]);
-    this.$target.insertAdjacentHTML('beforeend', boundTemplate);
   }
 
   template() {
