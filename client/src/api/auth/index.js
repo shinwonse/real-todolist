@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 
 import { KAKAO_AUTHORIZATION_URL } from '@/constants';
 import Router from '@/Router';
@@ -9,7 +9,7 @@ export const kakaoLogin = () => {
 
 export const logout = () => {
   axios
-    .get('http://localhost:3000/api/users/logout', {
+    .get(`/api/users/logout`, {
       withCredentials: true,
     })
     .then(() => {
