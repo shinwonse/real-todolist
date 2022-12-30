@@ -6,6 +6,8 @@ export const fetchUser = async () => {
   const { data } = await axios
     .get(`${SERVER_BASE_URI}/api/users`, {
       withCredentials: true,
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': true,
     })
     .then((res) => res);
   return data;
