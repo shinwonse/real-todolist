@@ -1,15 +1,19 @@
-import axios from 'axios';
+import axios from '../axios';
+
+import { SERVER_BASE_URI } from '@/constants';
 
 export const fetchUser = async () => {
-  const { data } = await axios.get('http://localhost:3000/api/users', {
-    withCredentials: true,
-  });
+  const { data } = await axios
+    .get(`${SERVER_BASE_URI}/api/users`, {
+      withCredentials: true,
+    })
+    .then((res) => res);
   return data;
 };
 
 export const postTodo = async (newToDo) => {
   await axios.post(
-    'http://localhost:3000/api/todos',
+    `${SERVER_BASE_URI}/api/todos`,
     { text: newToDo },
     {
       withCredentials: true,
@@ -19,14 +23,14 @@ export const postTodo = async (newToDo) => {
 };
 
 export const deleteTodo = async (id) => {
-  await axios.delete(`http://localhost:3000/api/todos/${id}`, {
+  await axios.delete(`${SERVER_BASE_URI}/api/todos/${id}`, {
     withCredentials: true,
   });
 };
 
 export const putTodo = async ({ id, isCompleted, text }) => {
   await axios.put(
-    `http://localhost:3000/api/todos/${id}`,
+    `${SERVER_BASE_URI}/api/todos/${id}`,
     { isCompleted, text },
     {
       withCredentials: true,
