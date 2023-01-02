@@ -36,9 +36,12 @@ class TodoListPage extends Component {
     `;
   }
 
+  async created() {
+    const user = await fetchUser();
+    this.setState({ user, isLoading: false });
+  }
+
   async mounted() {
-    const result = await fetchUser();
-    this.setState({ user: result, isLoading: false });
     const { toDos } = this.state.user;
     const $main = document.querySelector('.Todo__Main');
     new TodoCard($main, {
