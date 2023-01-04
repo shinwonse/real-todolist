@@ -20,10 +20,6 @@ const stylesHandler = isProduction
   : 'style-loader';
 
 const config = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-  },
   devServer: {
     open: true,
     host: 'localhost',
@@ -40,6 +36,16 @@ const config = {
   ],
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules\/(?!(axios|@redux-saga|redux-logger))/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            configFile: '../babel.config.json',
+          },
+        },
+      },
       {
         test: /\.s[ac]ss$/i,
         use: [stylesHandler, 'css-loader', 'postcss-loader', 'sass-loader'],
@@ -58,14 +64,6 @@ const config = {
     alias: {
       '@': path.join(__dirname, 'src'),
     },
-    // alias: {
-    //   process: 'process/browser',
-    //   utils: path.resolve('./src/utils'),
-    //   core: path.resolve('./src/core'),
-    //   pages: path.resolve('./src/views/pages'),
-    //   components: path.resolve('./src/views/components'),
-    //   assets: path.resolve('./src/assets/'),
-    // },
   },
 };
 
