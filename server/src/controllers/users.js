@@ -4,12 +4,16 @@ const { User } = require('../models/user');
  * 유저의 모든 정보를 가져온다.
  * */
 exports.getUser = async (req, res) => {
-  User.findOne({ _id: req.session.loggedUser._id })
-    .populate('toDos')
-    .exec((err, user) => {
-      if (err) return res.json(err);
-      res.send(user);
-    });
+  if (req.session.loggedUser) {
+    User.findOne({ _id: req.session.loggedUser._id })
+      .populate('toDos')
+      .exec((err, user) => {
+        if (err) return res.json(err);
+        res.send(user);
+      });
+    return;
+  }
+  return res.status(401).send('로그인이 필요합니다.');
 };
 
 /**

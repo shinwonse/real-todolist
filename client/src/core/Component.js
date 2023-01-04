@@ -13,9 +13,9 @@ class Component {
 
     this.$target = $target;
     this.props = props;
+    this.state = this.initState();
 
     await this.created();
-    this.state = this.initState();
     await this.beforeMount();
     this.render();
     await this.mounted();
