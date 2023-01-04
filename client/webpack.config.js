@@ -41,6 +41,9 @@ const config = {
         exclude: /node_modules\/(?!(axios|@redux-saga|redux-logger))/,
         use: {
           loader: 'babel-loader',
+          options: {
+            configFile: '../babel.config.json',
+          },
         },
       },
       {
