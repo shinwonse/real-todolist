@@ -13,8 +13,6 @@
     "@babel/core": "^7.20.5",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/preset-env": "^7.20.2",
-    "@babel/runtime-corejs3": "^7.20.7",
-    "@babel/plugin-transform-runtime": "^7.19.6",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
@@ -23,6 +21,8 @@
     "prettier": "^2.8.1"
   },
   "dependencies": {
+    "@babel/runtime-corejs3": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.19.6",
     "core-js": "^3.27.1",
     "dotenv": "^16.0.3"
   }
