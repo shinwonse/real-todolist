@@ -42,7 +42,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            configFile: '../babel.config.json',
+            configFile: './babel.config.json',
           },
         },
       },
