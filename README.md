@@ -17,7 +17,8 @@
 
 **Server**
 
-<img src="https://img.shields.io/badge/Node.js-339933.svg?&style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/mongoDB-47A248.svg?&style=for-the-badge&logo=MongoDB&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4.svg?&style=for-the-badge&logo=Axios&logoColor=white">
+<img src="https://img.shields.io/badge/Node.js-339933.svg?&style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Nest.js-E0234E.svg?&style=for-the-badge&logo=nest.js&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D.svg?&style=for-the-badge&logo=Redis&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4.svg?&style=for-the-badge&logo=Axios&logoColor=white">
+
 
 ## 개발 문서
 [Real-Todolist Docs](https://shinwonse.notion.site/Real-Todolist-d676f1b8eb264e8c9f864881db72acd8)
