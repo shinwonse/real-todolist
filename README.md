@@ -25,20 +25,22 @@
 ### 1. Development Setting
 - [eslint & prettier](https://shinwonse.notion.site/eslint-prettier-cc89ba5b58204e27a258fd0c20890220)
 - [babel](https://shinwonse.notion.site/babel-6a44cbc1fbfc494ab850f5c7afd853ab)
-- [webpack]()
+- [webpack](https://shinwonse.notion.site/webpack-ea3ea8c478c646eb870b8c768c0d70eb)
 
 ### 2. CI/CD
-- [GitHub Flow]()
-- [GitHub Actions]()
+- [GitHub Flow](https://shinwonse.notion.site/GitHub-Flow-20928247a5284a7c969314213d2df9ba)
+- [GitHub Actions](https://shinwonse.notion.site/GitHub-Actions-25911728b13e4ce5a6e6bff5d805a76c)
 
 ### 3. Feature
-- [SPA Router 구현하기]()
-- [웹 컴포넌트 구현하기]()
-- [bind util 함수를 통해 template 파싱하기 (feat.mustache)]()
+- [SPA Router 구현하기](https://shinwonse.notion.site/SPA-Router-0906b92fa84d4bcaa3009ba2f2da177b)
+- [웹 컴포넌트 구현하기](https://shinwonse.notion.site/dd67b9257c494f0e96b56e74b280fc81)
+- [bind util 함수를 통해 template 파싱하기 (feat.mustache)](https://shinwonse.notion.site/bind-util-template-feat-mustache-3209cc72309c47568d690b109d767192)
 
 ### 4. Issue
-- [JS 클래스에서의 함수 선언 방법]()
+- [JS 클래스에서의 함수 선언 방법](https://shinwonse.notion.site/JS-828d745810fc437a9416667b4ea92db2)
 
 ### 5. 기술 선택 이유
-- [axios]()
-- [sass]()
+- [axios](https://shinwonse.notion.site/axios-d00f421a10cb4936b628762e8b7aeaa2)
+- [sass](https://shinwonse.notion.site/sass-0b65b4281f974598a70d7ab64ed4bb64)
+- [webpack](https://shinwonse.notion.site/webpack-94c91fc083824bb39a5070721eb7de6a)
+- [GitHub Actions](https://shinwonse.notion.site/GitHub-Actions-3a8574b468a84d79845302580654239c)
