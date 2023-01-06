@@ -74,6 +74,10 @@ class App {
       secret: 'secret',
       resave: false,
       saveUninitialized: true,
+        cookie:{
+            sameSite: true,
+            secure: true
+        }
     }));
     this.app.use(cors({ origin: ORIGIN, credentials: Boolean(CREDENTIALS) }));
     this.app.use(express.json());
