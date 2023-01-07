@@ -38,7 +38,7 @@
 - [bind util 함수를 통해 template 파싱하기 (feat.mustache)](https://shinwonse.notion.site/bind-util-template-feat-mustache-3209cc72309c47568d690b109d767192)
 
 ### 4. Issue
-- [JS 클래스에서의 함수 선언 방법](https://shinwonse.notion.site/JS-828d745810fc437a9416667b4ea92db2)
+- [클래스에서 화살표 함수 사용을 지양해야하는 이유](https://shinwonse.notion.site/JS-828d745810fc437a9416667b4ea92db2)
 
 ### 5. 기술 선택 이유
 - [axios](https://shinwonse.notion.site/axios-d00f421a10cb4936b628762e8b7aeaa2)
