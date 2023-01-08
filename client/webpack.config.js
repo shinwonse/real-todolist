@@ -47,6 +47,13 @@ const config = {
         },
       },
       {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+        },
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [stylesHandler, 'css-loader', 'postcss-loader', 'sass-loader'],
       },
@@ -64,6 +71,7 @@ const config = {
     alias: {
       '@': path.join(__dirname, 'src'),
     },
+    extensions: ['.js', '.ts'],
   },
 };
 
