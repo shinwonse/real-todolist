@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import axios from '@/api/axios';
 import { KAKAO_AUTHORIZATION_URL } from '@/constants';
 import Router from '@/Router';
 
@@ -8,7 +7,7 @@ export const kakaoLogin = () => {
 };
 
 export const logout = () => {
-  axios.get('https://real-todolist.herokuapp.com/oauth/logout').then(() => {
+  axios.get('/oauth/logout').then(() => {
     Router.push('/login');
   });
 };
