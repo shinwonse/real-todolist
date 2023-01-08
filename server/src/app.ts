@@ -69,16 +69,18 @@ class App {
   }
 
   private initializeMiddlewares() {
-    this.app.use(session({
-      store: new RedisStore({ client: RedisClient as any, prefix:'auth:' }),
-      secret: 'secret',
-      resave: false,
-      saveUninitialized: true,
-        cookie:{
-            sameSite: true,
-            secure: true
-        }
-    }));
+    this.app.use(
+      session({
+        store: new RedisStore({ client: RedisClient as any, prefix: 'auth:' }),
+        secret: 'secret',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          sameSite: 'none',
+          secure: true,
+        },
+      }),
+    );
     this.app.use(cors({ origin: ORIGIN, credentials: Boolean(CREDENTIALS) }));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
@@ -86,14 +88,14 @@ class App {
 
   private initializeRoutes() {
     this.app.use(new Routes().router);
-    this.app.use('/', ((req, res, next) => {
+    this.app.use('/', (req, res, next) => {
       console.info(req.session);
       let data = `Hello World!`;
-      if (req.session.isLogin){
-        data = "HELLO! " + req.session.loginedUser.nickname;
+      if (req.session.isLogin) {
+        data = 'HELLO! ' + req.session.loginedUser.nickname;
       }
       res.send(data);
-    }));
+    });
   }
 
   private initializeErrorHandling() {
