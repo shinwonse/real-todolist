@@ -1,7 +1,15 @@
-import axios from '@/api/axios';
+// import axios from '@/api/axios';
+import axios from 'axios';
 
 export const fetchUser = async () => {
   const { data } = await axios.get('/users').then((res) => res);
+  return data;
+};
+
+export const getTodos = async () => {
+  const { data } = await axios
+    .get('https://real-todolist.herokuapp.com/todos', { withCredentials: true })
+    .then((res) => res);
   return data;
 };
 

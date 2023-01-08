@@ -1,4 +1,6 @@
-import { postTodo, fetchUser } from '@/api/todoList';
+import axios from 'axios';
+
+import { postTodo, fetchUser, getTodos } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import Component from '@/core/Component';
@@ -18,7 +20,8 @@ class TodoListPage extends Component {
       <div class='Todo__Wrapper'>
         <header class='Todo__Header'>
           <div class='Todo__Title'>
-            <h1>{{ this.state.user?.nickname }}의 Todo List</h1>
+            <h1>title</h1>
+<!--            <h1>{{ this.state.user?.nickname }}의 Todo List</h1>-->
             <button class='Todo__Title--button'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
@@ -29,6 +32,7 @@ class TodoListPage extends Component {
               <img alt='add' src=${PlusIcon} />
             </button>
           </form>
+          <button class='test'>test</button>
         </header>
         <main class='Todo__Main'></main>
         <div class='Modal__Position'></div>
@@ -37,21 +41,30 @@ class TodoListPage extends Component {
   }
 
   async created() {
-    const user = await fetchUser();
-    this.setState({ user, isLoading: false });
+    // const data = await getTodos();
+    // console.log(data);
+    // const user = await fetchUser();
+    // this.setState({ user, isLoading: false });
   }
 
-  async mounted() {
-    const { toDos } = this.state.user;
-    const $main = document.querySelector('.Todo__Main');
-    new TodoCard($main, {
-      toDos,
-    });
-  }
+  // async mounted() {
+  //   const { toDos } = this.state.user;
+  //   const $main = document.querySelector('.Todo__Main');
+  //   new TodoCard($main, {
+  //     toDos,
+  //   });
+  // }
 
   setEvent() {
     this.addEvent('click', '.Todo__Title--button', this.openHamburgerModal);
     this.addEvent('submit', '.Todo__Input', this.submitTodo.bind(this));
+    this.addEvent('click', '.test', () => {
+      axios
+        .get('https://real-todolist.herokuapp.com', {
+          withCredentials: true,
+        })
+        .then((res) => console.log(res));
+    });
   }
 
   async submitTodo(e) {
