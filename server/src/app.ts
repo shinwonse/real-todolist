@@ -69,10 +69,13 @@ class App {
   }
 
   private initializeMiddlewares() {
+    this.app.set('trust proxy', true);
     this.app.use(
       session({
         store: new RedisStore({ client: RedisClient as any, prefix: 'auth:' }),
         secret: 'secret',
+        resave: false,
+        saveUninitialized: true,
         cookie: {
           sameSite: 'none',
           secure: true,
