@@ -1,6 +1,5 @@
-import { fetchUser } from '@/api/todoList';
-import Login from '@/views/pages/Login.js';
-import TodoList from '@/views/pages/TodoList.js';
+import Login from '@/views/pages/Login';
+import TodoList from '@/views/pages/TodoList';
 
 const routes = [
   {
@@ -16,6 +15,9 @@ const routes = [
 ];
 
 class Router {
+  routes: object;
+  $app: Element;
+
   constructor() {
     this.routes = routes;
     this.$app = document.querySelector('#app');
@@ -29,10 +31,9 @@ class Router {
       (route) => route.path === location.pathname
     );
     if (auth) {
-      fetchUser();
-      return new component(this.$app);
+      return new component(this.$app, {});
     }
-    return new component(this.$app);
+    return new component(this.$app, {});
   }
 
   static push(destination) {
@@ -41,7 +42,7 @@ class Router {
       (route) => route.path === destination
     );
     history.pushState(null, null, path);
-    return new component($app);
+    return new component($app, {});
   }
 }
 
