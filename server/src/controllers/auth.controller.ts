@@ -84,31 +84,22 @@ class AuthController {
     const kakaoId: number = kakaoUserData.data.id;
     const kakaoNickname: string = kakaoUserData.data.properties.nickname;
 
-    try {
-      let loginUser: User = await this.usersService.findUserByKakaoId(kakaoId);
-
-      // 가입된 유저가 있는지 확인하고 없으면 생성
-      if (isEmpty(loginUser)) {
-        const userData = plainToInstance(UserDto, {
-          nickname: kakaoNickname,
-          is_kakao: true,
-          kakao_id: kakaoId,
-        });
-        loginUser = await this.usersService.createUser(userData);
-      }
-
+    const loginUser: User = await this.usersService.findUserByKakaoId(kakaoId);
+    // 가입된 유저가 있는지 확인하고 없으면 생성
+    if (!loginUser) {
+      const userData = plainToInstance(UserDto, {
+        nickname: kakaoNickname,
+        is_kakao: true,
+        kakao_id: kakaoId,
+      });
+      await this.usersService.createUser(userData);
       req.session.isLogin = true;
       req.session.loginedUser = loginUser;
-      console.log(req.session);
-      req.session.save((err) => {
-        console.log('세션 저장');
-        console.log(err);
-      });
-      console.log(redirectURI);
       res.redirect('https://real-todolist.vercel.app');
-    } catch (error) {
-      next(error);
     }
+    req.session.isLogin = true;
+    req.session.loginedUser = loginUser;
+    return res.redirect('https://real-todolist.vercel.app');
   };
 
   public logout = async (
