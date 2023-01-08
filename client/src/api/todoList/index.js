@@ -2,7 +2,9 @@
 import axios from 'axios';
 
 export const fetchUser = async () => {
-  const { data } = await axios.get('/users').then((res) => res);
+  const { data } = await axios
+    .get('/users', { withCredentials: true })
+    .then((res) => res);
   return data;
 };
 
