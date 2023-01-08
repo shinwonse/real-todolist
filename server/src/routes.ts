@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import OauthRoutes from './routes/oauth.routes';
-// import TodosRoutes from './routes/todos.routes';
 import UsersRoutes from './routes/users.routes';
 import TodosRoutes from "./routes/todos.routes";
 
