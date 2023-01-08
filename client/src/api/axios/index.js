@@ -13,6 +13,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
+    config.withCredentials = true;
     return config;
   },
   (error) => {
