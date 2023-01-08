@@ -1,5 +1,6 @@
 const path = require('path');
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const dotenv = require('dotenv');
 dotenv.config();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -8,8 +9,8 @@ const webpack = require('webpack');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const environmentVariables = [
-  'SERVER_BASE_URI',
-  'GITHUB_REDIRECT_URL',
+  'SERVER_BASE_URI' || '',
+  'GITHUB_REDIRECT_URL' || '',
   'KAKAO_CLIENT_ID',
   'KAKAO_REDIRECT_URI',
 ];
