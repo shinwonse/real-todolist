@@ -1,6 +1,7 @@
 import { logout } from '@/api/auth';
 import GitHubIcon from '@/assets/icons/icon-github.svg';
 import LogoutIcon from '@/assets/icons/icon-logout.svg';
+import { GITHUB_REDIRECT_URL } from '@/constants';
 import Component from '@/core/Component';
 
 class HamburgerModal extends Component {
@@ -29,10 +30,7 @@ class HamburgerModal extends Component {
   }
 
   openGitHub() {
-    window.open(
-      'https://github.com/shinwonse/real-todolist',
-      'real-todolist-github'
-    );
+    window.open(GITHUB_REDIRECT_URL, 'real-todolist-github');
   }
 
   closeModal() {
