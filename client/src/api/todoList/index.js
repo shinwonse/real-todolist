@@ -4,7 +4,7 @@ import { SERVER_BASE_URI } from '@/constants';
 
 export const fetchUser = async () => {
   const { data } = await axios
-    .get(`${SERVER_BASE_URI}/api/users`, {
+    .get(`${SERVER_BASE_URI}/users`, {
       withCredentials: true,
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': true,
