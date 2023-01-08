@@ -8,10 +8,10 @@ const webpack = require('webpack');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const environmentVariables = [
-  'KAKAO_CLIENT_ID',
-  'KAKAO_REDIRECT_URI',
   'SERVER_BASE_URI',
   'GITHUB_REDIRECT_URL',
+  'KAKAO_CLIENT_ID',
+  'KAKAO_REDIRECT_URI',
 ];
 
 const isProduction = process.env.NODE_ENV === 'production';
