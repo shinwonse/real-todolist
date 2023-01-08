@@ -1,15 +1,28 @@
 import axios from 'axios';
 import { NextFunction, Request, Response } from 'express';
 import qs from 'qs';
-import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '../config/env';
+import {
+    CLIENT_REDIRECT_URI_DEV,
+    CLIENT_REDIRECT_URI_PRODUCTION,
+    KAKAO_CLIENT_ID,
+    KAKAO_REDIRECT_URI
+} from '../config/env';
 import UsersService from '../services/users.service';
 import { User } from '../entities/user.entity';
 import { UserDto } from '../dtos/user.dto';
 import { isEmpty } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
+let redirectURI;
+if (process.env.NODE_ENV == 'production') {
+    redirectURI = CLIENT_REDIRECT_URI_PRODUCTION
+} else if (process.env.NODE_ENV == 'development') {
+    redirectURI = CLIENT_REDIRECT_URI_DEV
+}
+
 class AuthController {
   public usersService = new UsersService();
+
 
   public goRedirectURL = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -81,7 +94,7 @@ class AuthController {
       req.session.isLogin = true;
       req.session.loginedUser = loginUser;
       req.session.save();
-      res.redirect('/');
+      res.redirect(redirectURI);
     }
     catch (error) {
       next(error);
@@ -92,10 +105,10 @@ class AuthController {
     if(req.session.isLogin){
       req.session.destroy((err)=>{
         if(err) throw err;
-        res.redirect('/');
+        res.redirect(redirectURI);
       })
     } else {
-      res.redirect('/');
+      res.redirect(redirectURI);
     }
   };
 }
