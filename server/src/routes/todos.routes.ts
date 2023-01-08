@@ -14,7 +14,7 @@ class TodosRoutes {
 
     private initializeRoutes() {
         this.router.get(`${this.path}/all`, this.todosController.getAllTodos);
-        this.router.get(`${this.path}`, this.todosController.getTodo);
+        this.router.get(`${this.path}`, this.todosController.getTodosByUserId);
         this.router.post(`${this.path}`, validationMiddleware(TodoDto, 'body'), this.todosController.createTodo);
         this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(TodoDto, 'body'), this.todosController.updateTodo);
         this.router.delete(`${this.path}/:id(\\d+)`, this.todosController.deleteTodo);

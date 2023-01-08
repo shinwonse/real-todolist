@@ -18,16 +18,16 @@ class TodosController {
         }
     }
 
-    public getTodo = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public getTodosByUserId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             if (!req.session.isLogin) {
                 res.status(401).json({message: "Please Login First"});
                 return;
             }
             const userId = req.session.loginedUser.user_id;
-            const findAllTodosData: Todo[] = await this.todoService.findAllTodo();
+            const findTodosByUserId: Todo[] = await this.todoService.findTodosByUserId(userId);
 
-            res.status(200).json({data: findAllTodosData, message: 'findAll'});
+            res.status(200).json({data: findTodosByUserId, message: 'findAll'});
         } catch (error) {
             next(error);
         }

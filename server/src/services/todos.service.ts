@@ -17,6 +17,13 @@ class TodosService {
         return todo;
     }
 
+    public async findTodosByUserId(userId: number): Promise<Todo[]> {
+        const todos: Todo[] = await Todo.find({where: {user_id: userId}});
+        if (!todos) throw new HttpException(409, 'Todo doesn\'t exist');
+
+        return todos;
+    }
+
     public async createTodo(userId, todoData: TodoDto): Promise<Todo> {
         const findUser: User = await User.findOne({where: {user_id: userId}});
         if (!findUser) throw new HttpException(409, "User doesn't exist");
