@@ -44,11 +44,7 @@ class MoreOptionModal extends Component {
       e.preventDefault();
       const input = document.querySelector('.Modal__Input') as HTMLInputElement;
       const newContent = input.value;
-      await putTodo({
-        id,
-        isCompleted: false,
-        text: newContent,
-      });
+      await putTodo(id, false, newContent);
       const data = await fetchUser();
       this.setState({ user: data, isLoading: false });
       this.closeModal();
