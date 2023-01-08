@@ -30,7 +30,8 @@
         "newlines-between": "always"
       }
     ],
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
+    "@typescript-eslint/no-empty-function": "off"
   },
   "settings": {
     "import/resolver": {
