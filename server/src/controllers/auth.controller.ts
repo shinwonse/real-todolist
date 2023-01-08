@@ -111,6 +111,14 @@ class AuthController {
       res.redirect(redirectURI);
     }
   };
+
+  public islogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    if(req.session.isLogin){
+      res.status(200).json({data:"logined", user:req.session.loginedUser})
+    } else {
+      res.status(401).json({data:"Not logined"})
+    }
+  };
 }
 
 export default AuthController;
