@@ -72,12 +72,10 @@ class App {
     this.app.use(
       session({
         store: new RedisStore({ client: RedisClient as any, prefix: 'auth:' }),
-        resave: false,
-        saveUninitialized: true,
         secret: 'secret',
         cookie: {
-          secure: false,
-          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
         },
       }),
     );

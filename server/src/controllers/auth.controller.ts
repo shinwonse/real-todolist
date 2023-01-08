@@ -99,7 +99,9 @@ class AuthController {
 
       req.session.isLogin = true;
       req.session.loginedUser = loginUser;
-      req.session.save();
+      req.session.save((err) => {
+        console.log(err);
+      });
       console.log(redirectURI);
       res.redirect('http://localhost:8080');
     } catch (error) {
