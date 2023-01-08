@@ -99,12 +99,13 @@ class AuthController {
 
       req.session.isLogin = true;
       req.session.loginedUser = loginUser;
+      console.log(req.session);
       req.session.save((err) => {
         console.log('세션 저장');
         console.log(err);
       });
       console.log(redirectURI);
-      res.redirect('http://localhost:8080');
+      res.redirect('https://real-todolist.vercel.app');
     } catch (error) {
       next(error);
     }
