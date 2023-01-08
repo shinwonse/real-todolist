@@ -31,9 +31,9 @@ class Router {
       (route) => route.path === location.pathname
     );
     if (auth) {
-      return new component(this.$app);
+      return new component(this.$app, {});
     }
-    return new component(this.$app);
+    return new component(this.$app, {});
   }
 
   static push(destination) {
@@ -42,7 +42,7 @@ class Router {
       (route) => route.path === destination
     );
     history.pushState(null, null, path);
-    return new component($app);
+    return new component($app, {});
   }
 }
 
