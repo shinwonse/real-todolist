@@ -1,3 +1,4 @@
+import { fetchUser } from '@/api/todoList';
 import Login from '@/views/pages/Login.js';
 import TodoList from '@/views/pages/TodoList.js';
 
@@ -28,6 +29,7 @@ class Router {
       (route) => route.path === location.pathname
     );
     if (auth) {
+      fetchUser();
       return new component(this.$app);
     }
     return new component(this.$app);
