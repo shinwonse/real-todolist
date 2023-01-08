@@ -11,6 +11,7 @@ const environmentVariables = [
   'KAKAO_CLIENT_ID',
   'KAKAO_REDIRECT_URI',
   'SERVER_BASE_URI',
+  'GITHUB_REDIRECT_URL',
 ];
 
 const isProduction = process.env.NODE_ENV === 'production';
