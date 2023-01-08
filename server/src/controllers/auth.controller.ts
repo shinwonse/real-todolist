@@ -100,6 +100,7 @@ class AuthController {
       req.session.isLogin = true;
       req.session.loginedUser = loginUser;
       req.session.save((err) => {
+        console.log('세션 저장');
         console.log(err);
       });
       console.log(redirectURI);
