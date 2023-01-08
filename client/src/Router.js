@@ -1,6 +1,6 @@
 import { fetchUser } from '@/api/todoList';
-import Login from '@/views/pages/Login';
-import TodoList from '@/views/pages/TodoList';
+import Login from '@/views/pages/Login.js';
+import TodoList from '@/views/pages/TodoList.js';
 
 const routes = [
   {
