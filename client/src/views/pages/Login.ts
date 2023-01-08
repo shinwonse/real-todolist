@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { kakaoLogin } from '@/api/auth';
 import KakaoLogin from '@/assets/images/kakao_login_medium_wide.png';
 import Component from '@/core/Component';

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { postTodo, fetchUser, getTodos } from '@/api/todoList';
+import { postTodo, fetchUser } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import Component from '@/core/Component';
@@ -69,7 +69,9 @@ class TodoListPage extends Component {
 
   async submitTodo(e) {
     e.preventDefault();
-    const toDoInput = document.querySelector('.Todo__Input input');
+    const toDoInput = document.querySelector(
+      '.Todo__Input input'
+    ) as HTMLInputElement;
     const newToDo = toDoInput.value;
     toDoInput.value = '';
     await postTodo(newToDo);

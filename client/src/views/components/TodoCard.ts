@@ -37,16 +37,13 @@ class TodoCard extends Component {
   setEvent() {
     this.addEvent('click', '.Todo__List--check', async (e) => {
       const isCompleted = e.target.checked;
-      console.log(isCompleted);
       const text = e.target.nextElementSibling.innerText;
       const id = e.target.closest('[data-todo-id]').dataset.todoId;
       await this.checkTodo(id, isCompleted, text);
     });
     this.addEvent('click', '.Todo__List--modal-button', (e) => {
-      const text = document.querySelector('.Todo__List--text').innerText;
       this.openMoreOptionModal(
-        e.target.closest('[data-todo-id]').dataset.todoId,
-        text
+        e.target.closest('[data-todo-id]').dataset.todoId
       );
     });
   }

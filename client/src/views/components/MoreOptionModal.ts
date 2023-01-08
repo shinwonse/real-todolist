@@ -42,7 +42,7 @@ class MoreOptionModal extends Component {
     `;
     this.addEvent('submit', '.Modal__Form', async (e) => {
       e.preventDefault();
-      const input = document.querySelector('.Modal__Input');
+      const input = document.querySelector('.Modal__Input') as HTMLInputElement;
       const newContent = input.value;
       await putTodo({
         id,
