@@ -6,7 +6,8 @@ import {
   CLIENT_REDIRECT_URI_PRODUCTION,
   JWT_SECRET_KEY,
   KAKAO_CLIENT_ID,
-  KAKAO_REDIRECT_URI,
+  KAKAO_REDIRECT_URI_DEV,
+  KAKAO_REDIRECT_URI_PRODUCTION,
 } from '../config/env';
 import UsersService from '../services/users.service';
 import { User } from '../entities/user.entity';
@@ -16,15 +17,16 @@ import { plainToInstance } from 'class-transformer';
 import { DataStoredInToken, TokenData } from '../interfaces/auth.interface';
 import { sign } from 'jsonwebtoken';
 
-let redirectURI;
-if (process.env.NODE_ENV == 'production') {
-  redirectURI = CLIENT_REDIRECT_URI_PRODUCTION;
-} else if (process.env.NODE_ENV == 'development') {
-  redirectURI = CLIENT_REDIRECT_URI_DEV;
-}
-
 class AuthController {
   public usersService = new UsersService();
+  private redirectURI =
+    process.env.NODE_ENV == 'production'
+      ? CLIENT_REDIRECT_URI_PRODUCTION
+      : CLIENT_REDIRECT_URI_DEV;
+  private kakaoRedirectURI =
+    process.env.NODE_ENV == 'production'
+      ? KAKAO_REDIRECT_URI_PRODUCTION
+      : KAKAO_REDIRECT_URI_DEV;
 
   public goRedirectURL = async (
     req: Request,
@@ -32,7 +34,7 @@ class AuthController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${this.kakaoRedirectURI}&response_type=code`;
 
       res.redirect(kakaoAuthUrl);
     } catch (error) {
@@ -45,6 +47,7 @@ class AuthController {
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
+    console.log(this.redirectURI, this.kakaoRedirectURI);
     // 인증 코드를 먼저 받아오는 부분
     let kakaoTokenRequest;
     try {
@@ -57,7 +60,7 @@ class AuthController {
         data: qs.stringify({
           client_id: KAKAO_CLIENT_ID,
           grant_type: 'authorization_code',
-          redirect_uri: KAKAO_REDIRECT_URI,
+          redirect_uri: this.kakaoRedirectURI,
           code: req.query.code,
         }),
       });
@@ -136,10 +139,10 @@ class AuthController {
     if (req.session.isLogin) {
       req.session.destroy((err) => {
         if (err) throw err;
-        res.redirect(redirectURI);
+        res.redirect(this.redirectURI);
       });
     } else {
-      res.redirect(redirectURI);
+      res.redirect(this.redirectURI);
     }
   };
 

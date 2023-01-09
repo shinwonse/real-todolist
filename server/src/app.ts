@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { AppDataSource } from './config/data-source';
-import { CREDENTIALS, ORIGIN, PORT } from './config/env';
+import { CREDENTIALS, ORIGIN_DEV, ORIGIN_PRODUCTION, PORT } from './config/env';
 import Routes from './routes';
 import RedisClient from './config/redis';
 import connectRedis from 'connect-redis';
@@ -82,7 +82,12 @@ class App {
         },
       }),
     );
-    this.app.use(cors({ origin: ORIGIN, credentials: Boolean(CREDENTIALS) }));
+    this.app.use(
+      cors({
+        origin: this.env == 'production' ? ORIGIN_DEV : ORIGIN_PRODUCTION,
+        credentials: Boolean(CREDENTIALS),
+      }),
+    );
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }
