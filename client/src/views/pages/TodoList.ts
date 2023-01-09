@@ -3,6 +3,7 @@ import axios from 'axios';
 import { postTodo, fetchUser } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
+import TodoListPageStyle from '@/assets/styles/scss/todolist.module.scss';
 import Component from '@/core/Component';
 import HamburgerModal from '@/views/components/HamburgerModal';
 import TodoCard from '@/views/components/TodoCard';
@@ -17,24 +18,23 @@ class TodoListPage extends Component {
 
   template() {
     return `
-      <div class='Todo__Wrapper'>
-        <header class='Todo__Header'>
-          <div class='Todo__Title'>
+      <div class=${TodoListPageStyle.wrapper}>
+        <header class=${TodoListPageStyle.header}>
+          <div class=${TodoListPageStyle.title}>
             <h1>title</h1>
 <!--            <h1>{{ this.state.user?.nickname }}의 Todo List</h1>-->
-            <button class='Todo__Title--button'>
+            <button class=${TodoListPageStyle.titleButton} id='title_btn'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
           </div>
-          <form class='Todo__Input'>
-            <input class='Todo__Input--element' type='text' placeholder='할 일을 입력하세요'/>
-            <button class='Todo__Input--button'>
+          <form class=${TodoListPageStyle.input}>
+            <input class=${TodoListPageStyle.inputElement} type='text' placeholder='할 일을 입력하세요'/>
+            <button class=${TodoListPageStyle.inputButton}>
               <img alt='add' src=${PlusIcon} />
             </button>
           </form>
-          <button class='test'>test</button>
         </header>
-        <main class='Todo__Main'></main>
+        <main class=${TodoListPageStyle.main}></main>
         <div class='Modal__Position'></div>
       </div>
     `;
@@ -56,15 +56,8 @@ class TodoListPage extends Component {
   // }
 
   setEvent() {
-    this.addEvent('click', '.Todo__Title--button', this.openHamburgerModal);
+    this.addEvent('click', '#title_btn', this.openHamburgerModal);
     this.addEvent('submit', '.Todo__Input', this.submitTodo.bind(this));
-    this.addEvent('click', '.test', () => {
-      axios
-        .get('https://real-todolist.herokuapp.com', {
-          withCredentials: true,
-        })
-        .then((res) => console.log(res));
-    });
   }
 
   async submitTodo(e) {

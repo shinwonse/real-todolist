@@ -1,4 +1,4 @@
-.Modal {
+.wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,14 +9,14 @@
   align-items: center;
 }
 
-.Modal__Overlay {
+.overlay {
   background-color: rgba(0, 0, 0, 0.6);
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-.Modal__Content {
+.content {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -30,7 +30,7 @@
   width: 50%;
 }
 
-.Modal__Button {
+.button {
   cursor: grab;
   display: flex;
   flex-direction: column;
@@ -40,17 +40,17 @@
   font-weight: 700;
 }
 
-.Modal__Icon {
+.icon {
   width: 36px;
   height: 36px;
 }
 
-.Modal__Icon--edit {
+.editIcon {
   width: 20px;
   height: 20px;
 }
 
-.Modal__Form {
+.form {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -59,7 +59,7 @@
   height: 55px;
 }
 
-.Modal__Input {
+.input {
   width: 100%;
   border-bottom: 2px solid black;
   margin-right: 10px;
