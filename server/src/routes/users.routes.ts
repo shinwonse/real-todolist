@@ -15,7 +15,11 @@ class UsersRoutes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.usersController.getAllUsers);
     this.router.get(`${this.path}/:id(\\d+)`, this.usersController.getUser);
-    this.router.post(`${this.path}`, validationMiddleware(UserDto), this.usersController.createUser);
+    this.router.post(
+      `${this.path}`,
+      validationMiddleware(UserDto),
+      this.usersController.createUser,
+    );
   }
 }
 
