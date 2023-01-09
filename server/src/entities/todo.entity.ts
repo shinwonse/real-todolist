@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  BaseEntity,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -10,7 +17,7 @@ export class Todo extends BaseEntity {
   text: string;
 
   @Column({ default: false })
-  completed: boolean;
+  is_completed: boolean;
 
   @Column()
   user_id: number;
