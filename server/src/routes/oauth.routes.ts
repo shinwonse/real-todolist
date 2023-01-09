@@ -13,7 +13,10 @@ class OauthRoutes {
   private initializeRoutes() {
     this.router.get(`${this.path}/kakao`, this.authController.goRedirectURL);
     this.router.get(`${this.path}/islogin`, this.authController.islogin);
-    this.router.get(`${this.path}/kakao/redirect`, this.authController.getKakaoRedirect);
+    this.router.get(
+      `${this.path}/kakao/redirect`,
+      this.authController.getKakaoRedirect,
+    );
     this.router.get(`${this.path}/logout`, this.authController.logout);
   }
 }

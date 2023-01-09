@@ -4,6 +4,7 @@ import qs from 'qs';
 import {
   CLIENT_REDIRECT_URI_DEV,
   CLIENT_REDIRECT_URI_PRODUCTION,
+  JWT_SECRET_KEY,
   KAKAO_CLIENT_ID,
   KAKAO_REDIRECT_URI,
 } from '../config/env';
@@ -12,6 +13,8 @@ import { User } from '../entities/user.entity';
 import { UserDto } from '../dtos/user.dto';
 import { isEmpty } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
+import { DataStoredInToken, TokenData } from '../interfaces/auth.interface';
+import { sign } from 'jsonwebtoken';
 
 let redirectURI;
 if (process.env.NODE_ENV == 'production') {
@@ -97,19 +100,33 @@ class AuthController {
         loginUser = await this.usersService.createUser(userData);
       }
 
-      req.session.isLogin = true;
-      req.session.loginedUser = loginUser;
-      console.log(req.session);
-      req.session.save((err) => {
-        console.log('세션 저장');
-        console.log(err);
-      });
-      console.log(redirectURI);
-      res.redirect('https://real-todolist.vercel.app');
+      // req.session.isLogin = true;
+      // req.session.loginedUser = loginUser;
+      // console.log(req.session);
+      // req.session.save((err) => {
+      //   console.log('세션 저장');
+      //   console.log(err);
+      // });
+      // console.log(redirectURI);
+      // res.redirect('https://real-todolist.vercel.app');
+      const tokenData = this.createToken(loginUser);
+
+      res.status(200).json({ token: tokenData, user: loginUser });
     } catch (error) {
       next(error);
     }
   };
+
+  public createToken(user: User): TokenData {
+    const dataStoredInToken: DataStoredInToken = { id: user.user_id };
+    const secretKey: string = JWT_SECRET_KEY;
+    const expiresIn: number = 60 * 60 * 60 * 30;
+
+    return {
+      expiresIn,
+      token: sign(dataStoredInToken, secretKey, { expiresIn }),
+    };
+  }
 
   public logout = async (
     req: Request,

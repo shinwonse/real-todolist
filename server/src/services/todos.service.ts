@@ -1,57 +1,68 @@
-import {Todo} from '../entities/todo.entity';
-import {HttpException} from '../exceptions/HttpException';
-import {TodoDto} from '../dtos/todo.dto';
-import {User} from "../entities/user.entity";
+import { Todo } from '../entities/todo.entity';
+import { HttpException } from '../exceptions/HttpException';
+import { TodoDto } from '../dtos/todo.dto';
+import { User } from '../entities/user.entity';
 
 class TodosService {
-    public async findAllTodo(): Promise<Todo[]> {
-        const todos: Todo[] = await Todo.find();
+  public async findAllTodo(): Promise<Todo[]> {
+    const todos: Todo[] = await Todo.find();
 
-        return todos;
-    }
+    return todos;
+  }
 
-    public async findTodo(todoId: number): Promise<Todo> {
-        const todo: Todo = await Todo.findOne({where: {todo_id: todoId}});
-        if (!todo) throw new HttpException(409, 'Todo doesn\'t exist');
+  public async findTodo(todoId: number): Promise<Todo> {
+    const todo: Todo = await Todo.findOne({ where: { todo_id: todoId } });
+    if (!todo) throw new HttpException(409, "Todo doesn't exist");
 
-        return todo;
-    }
+    return todo;
+  }
 
-    public async findTodosByUserId(userId: number): Promise<Todo[]> {
-        const todos: Todo[] = await Todo.find({where: {user_id: userId}});
-        if (!todos) throw new HttpException(409, 'Todo doesn\'t exist');
+  public async findTodosByUserId(userId: number): Promise<Todo[]> {
+    const todos: Todo[] = await Todo.find({ where: { user_id: userId } });
+    if (!todos) throw new HttpException(409, "Todo doesn't exist");
 
-        return todos;
-    }
+    return todos;
+  }
 
-    public async createTodo(userId, todoData: TodoDto): Promise<Todo> {
-        const findUser: User = await User.findOne({where: {user_id: userId}});
-        if (!findUser) throw new HttpException(409, "User doesn't exist");
+  public async createTodo(userId, todoData: TodoDto): Promise<Todo> {
+    const findUser: User = await User.findOne({ where: { user_id: userId } });
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
 
-        const createTodoData: Todo = await Todo.create({...todoData, user_id: findUser.user_id}).save();
+    const createTodoData: Todo = await Todo.create({
+      ...todoData,
+      user_id: findUser.user_id,
+    }).save();
 
-        return createTodoData;
-    }
+    return createTodoData;
+  }
 
-    public async updateTodo(todoId: number, todoData: TodoDto): Promise<Todo> {
-        const findTodo: Todo = await Todo.findOne({where: {todo_id: todoId}});
-        if (!findTodo) throw new HttpException(409, 'Todo doesn\'t exist');
+  public async updateTodo(
+    userId: number,
+    todoId: number,
+    todoData: TodoDto,
+  ): Promise<Todo> {
+    const findTodo: Todo = await Todo.findOne({
+      where: { todo_id: todoId, user_id: userId },
+    });
+    if (!findTodo) throw new HttpException(409, "Todo doesn't exist");
 
-        await Todo.update(todoId, {...todoData});
+    await Todo.update(todoId, { ...todoData });
 
-        const updateTodoData: Todo = await Todo.findOne({where: {todo_id: todoId}});
+    const updateTodoData: Todo = await Todo.findOne({
+      where: { todo_id: todoId },
+    });
 
-        return updateTodoData;
-    }
+    return updateTodoData;
+  }
 
-    public async deleteTodo(todoId: number): Promise<Todo> {
-        const findTodo: Todo = await Todo.findOne({where: {todo_id: todoId}});
-        if (!findTodo) throw new HttpException(409, 'Todo doesn\'t exist');
+  public async deleteTodo(todoId: number): Promise<Todo> {
+    const findTodo: Todo = await Todo.findOne({ where: { todo_id: todoId } });
+    if (!findTodo) throw new HttpException(409, "Todo doesn't exist");
 
-        await Todo.delete(todoId);
+    await Todo.delete(todoId);
 
-        return findTodo;
-    }
+    return findTodo;
+  }
 }
 
 export default TodosService;
