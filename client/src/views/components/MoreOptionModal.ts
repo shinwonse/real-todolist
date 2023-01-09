@@ -2,6 +2,7 @@ import { deleteTodo, fetchUser, putTodo } from '@/api/todoList';
 import DeleteIcon from '@/assets/icons/icon-delete.svg';
 import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
+import ModalStyle from '@/assets/styles/scss/modal.module.scss';
 import Component from '@/core/Component';
 import TodoCard from '@/views/components/TodoCard';
 
@@ -14,15 +15,15 @@ class MoreOptionModal extends Component {
 
   template() {
     return `
-      <div class='Modal'>
-        <div class='Modal__Overlay'></div>
-        <div class='Modal__Content'>
-          <button class='Modal__Button' id='edit'>
-            <img class='Modal__Icon' alt='edit' src=${EditIcon} />
+      <div class=${ModalStyle.wrapper}>
+        <div class=${ModalStyle.overlay}></div>
+        <div class=${ModalStyle.content}>
+          <button class=${ModalStyle.button} id='edit'>
+            <img class=${ModalStyle.icon} alt='edit' src=${EditIcon} />
             <h2>Edit</h2>
           </button>
-          <button class='Modal__Button' id='delete'>
-            <img class='Modal__Icon' alt='delete' src=${DeleteIcon} />
+          <button class=${ModalStyle.button} id='delete'>
+            <img class=${ModalStyle.icon} alt='delete' src=${DeleteIcon} />
             <h2>Delete</h2>
           </button>
         </div>
@@ -33,10 +34,10 @@ class MoreOptionModal extends Component {
   startEdit(id) {
     const contentDiv = document.querySelector('.Modal__Content');
     contentDiv.innerHTML = `
-      <form class='Modal__Form'>
-        <input class='Modal__Input' type='text' placeholder='수정할 할 일을 입력하세요.'/>
-        <button class='Modal__Button' type='submit' class='Modal__Submit'>
-          <img class='Modal__Icon--edit' alt='submit' src=${SubmitIcon} />
+      <form class=${ModalStyle.form}>
+        <input class=${ModalStyle.input} type='text' placeholder='수정할 할 일을 입력하세요.'/>
+        <button class=${ModalStyle.button} type='submit' class='Modal__Submit'>
+          <img class=${ModalStyle.editIcon} alt='submit' src=${SubmitIcon} />
         </button>
       </form>
     `;
