@@ -14,7 +14,11 @@ import { User } from '../entities/user.entity';
 import { UserDto } from '../dtos/user.dto';
 import { isEmpty } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { DataStoredInToken, TokenData } from '../interfaces/auth.interface';
+import {
+  DataStoredInToken,
+  RequestWithUser,
+  TokenData,
+} from '../interfaces/auth.interface';
 import { sign } from 'jsonwebtoken';
 
 class AuthController {
@@ -135,23 +139,16 @@ class AuthController {
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
-    if (req.session.isLogin) {
-      req.session.destroy((err) => {
-        if (err) throw err;
-        res.redirect(this.redirectURI);
-      });
-    } else {
-      res.redirect(this.redirectURI);
-    }
+    res.redirect(this.redirectURI);
   };
 
   public islogin = async (
-    req: Request,
+    req: RequestWithUser,
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
-    if (req.session.isLogin) {
-      res.status(200).json({ data: 'logined', user: req.session.loginedUser });
+    if (req.user) {
+      res.status(200).json({ data: 'logined', user: req.user });
     } else {
       res.status(401).json({ data: 'Not logined' });
     }
