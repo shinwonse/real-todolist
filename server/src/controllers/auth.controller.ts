@@ -117,7 +117,8 @@ class AuthController {
       // console.log(redirectURI);
       // res.redirect('https://real-todolist.vercel.app');
       const tokenData = this.createToken(loginUser);
-      res.redirect(this.redirectURI + qs.stringify(tokenData));
+      res.redirect(this.redirectURI + `?token=${tokenData.token}`);
+      // res.redirect(this.redirectURI + '/' + qs.stringify(tokenData));
     } catch (error) {
       next(error);
     }
