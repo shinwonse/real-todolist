@@ -3,8 +3,6 @@ import axios from 'axios';
 import { SERVER_BASE_URI } from '@/constants';
 import Router from '@/Router';
 
-console.log('hi');
-
 const instance = axios.create({
   baseURL: SERVER_BASE_URI,
   headers: {
