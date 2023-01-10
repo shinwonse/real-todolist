@@ -1,29 +1,34 @@
 import { putTodo } from '@/api/todoList';
 import MoreIcon from '@/assets/icons/icon-more.svg';
+import TodoListCardStyle from '@/assets/styles/scss/todolist.module.scss';
 import Component from '@/core/Component';
 import MoreOptionModal from '@/views/components/MoreOptionModal';
 
 class TodoCard extends Component {
   initState() {
     return {
-      toDos: this.props.toDos,
+      toDos: this.props.toDos.data,
     };
   }
 
   template() {
     return `
-      <ul class='Todo__List'>
+      <ul class=${TodoListCardStyle.list}>
         ${this.state.toDos
           .map(
             (todo) => `
-              <li class='Todo__List--card' data-todo-id=${todo._id}>
+              <li class=${TodoListCardStyle.listCard} data-todo-id=${
+              todo.todo_id
+            }>
                 ${
-                  todo.completed
-                    ? `<input type='checkbox' class='Todo__List--check' checked />`
-                    : `<input type='checkbox' class='Todo__List--check' />`
+                  todo.is_completed
+                    ? `<input type='checkbox' class=${TodoListCardStyle.listCheck} id='todoCheck' checked />`
+                    : `<input type='checkbox' class=${TodoListCardStyle.listCheck} id='todoCheck' />`
                 }
-                <span class='Todo__List--text'>${todo.text}</span>
-                <button class='Todo__List--modal-button'>
+                <span class=${TodoListCardStyle.listText}>${todo.text}</span>
+                <button class=${
+                  TodoListCardStyle.listModalButton
+                } id='modalBtn'>
                   <img alt='more' src=${MoreIcon} />
                 </button>
               </li>
@@ -34,26 +39,30 @@ class TodoCard extends Component {
     `;
   }
 
+  created() {
+    console.log(this.state.toDos);
+  }
+
   setEvent() {
-    this.addEvent('click', '.Todo__List--check', async (e) => {
-      const isCompleted = e.target.checked;
+    this.addEvent('click', '#todoCheck', async (e) => {
+      const is_completed = e.target.checked;
       const text = e.target.nextElementSibling.innerText;
       const id = e.target.closest('[data-todo-id]').dataset.todoId;
-      await this.checkTodo(id, isCompleted, text);
+      await this.checkTodo(id, is_completed, text);
     });
-    this.addEvent('click', '.Todo__List--modal-button', (e) => {
+    this.addEvent('click', '#modalBtn', (e) => {
       this.openMoreOptionModal(
         e.target.closest('[data-todo-id]').dataset.todoId
       );
     });
   }
 
-  async checkTodo(id, isCompleted, text) {
-    await putTodo(id, isCompleted, text);
+  async checkTodo(id, is_completed, text) {
+    await putTodo(id, is_completed, text);
   }
 
   openMoreOptionModal(id) {
-    const $modalPosition = document.querySelector('.Modal__Position');
+    const $modalPosition = document.querySelector('#modalPosition');
     return new MoreOptionModal($modalPosition, id);
   }
 }
