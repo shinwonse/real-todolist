@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import AuthController from '../controllers/auth.controller';
+import authMiddleware from '../middlewares/auth.middleware';
 
 class OauthRoutes {
   public path = '/oauth';
@@ -12,7 +13,11 @@ class OauthRoutes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/kakao`, this.authController.goRedirectURL);
-    this.router.get(`${this.path}/islogin`, this.authController.islogin);
+    this.router.get(
+      `${this.path}/islogin`,
+      authMiddleware,
+      this.authController.islogin,
+    );
     this.router.get(
       `${this.path}/kakao/redirect`,
       this.authController.getKakaoRedirect,
