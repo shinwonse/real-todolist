@@ -59,7 +59,7 @@ class App {
     this.app.set('trust proxy', true);
     this.app.use(
       cors({
-        origin: this.env == 'production' ? ORIGIN_DEV : ORIGIN_PRODUCTION,
+        origin: this.env == 'production' ? ORIGIN_PRODUCTION : ORIGIN_DEV,
         credentials: Boolean(CREDENTIALS),
       }),
     );
