@@ -4,20 +4,7 @@ import { AppDataSource } from './config/data-source';
 import { CREDENTIALS, ORIGIN_DEV, ORIGIN_PRODUCTION, PORT } from './config/env';
 import Routes from './routes';
 import RedisClient from './config/redis';
-import connectRedis from 'connect-redis';
-import session, { Cookie } from 'express-session';
 import errorMiddleware from './middlewares/error.middleware';
-import { User } from './entities/user.entity';
-
-const RedisStore = connectRedis(session);
-
-declare module 'express-session' {
-  interface SessionData {
-    loginedUser: User;
-    isLogin: boolean;
-    cookie: Cookie;
-  }
-}
 
 class App {
   public app: express.Application;
@@ -71,18 +58,6 @@ class App {
   private initializeMiddlewares() {
     this.app.set('trust proxy', true);
     this.app.use(
-      session({
-        store: new RedisStore({ client: RedisClient as any, prefix: 'auth:' }),
-        secret: 'secret',
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-          sameSite: 'none',
-          secure: true,
-        },
-      }),
-    );
-    this.app.use(
       cors({
         origin: this.env == 'production' ? ORIGIN_DEV : ORIGIN_PRODUCTION,
         credentials: Boolean(CREDENTIALS),
@@ -95,11 +70,7 @@ class App {
   private initializeRoutes() {
     this.app.use(new Routes().router);
     this.app.use('/', (req, res, next) => {
-      console.info(req.session);
-      let data = `Hello World!`;
-      if (req.session.isLogin) {
-        data = 'HELLO! ' + req.session.loginedUser.nickname;
-      }
+      const data = `Hello World!`;
       res.send(data);
     });
   }
