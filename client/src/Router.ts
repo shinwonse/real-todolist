@@ -26,13 +26,10 @@ class Router {
     };
   }
 
-  init() {
+  async init() {
     const { auth, component } = routes.find(
       (route) => route.path === location.pathname
     );
-    if (auth) {
-      return new component(this.$app, {});
-    }
     return new component(this.$app, {});
   }
 

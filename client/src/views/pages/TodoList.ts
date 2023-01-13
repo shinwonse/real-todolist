@@ -1,10 +1,10 @@
-import axios from 'axios';
-
-import { postTodo, fetchUser } from '@/api/todoList';
+import { getUser } from '@/api/auth';
+import { postTodo, getTodos } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import TodoListPageStyle from '@/assets/styles/scss/todolist.module.scss';
 import Component from '@/core/Component';
+import { saveToken } from '@/utils';
 import HamburgerModal from '@/views/components/HamburgerModal';
 import TodoCard from '@/views/components/TodoCard';
 
@@ -21,57 +21,61 @@ class TodoListPage extends Component {
       <div class=${TodoListPageStyle.wrapper}>
         <header class=${TodoListPageStyle.header}>
           <div class=${TodoListPageStyle.title}>
-            <h1>title</h1>
-<!--            <h1>{{ this.state.user?.nickname }}의 Todo List</h1>-->
-            <button class=${TodoListPageStyle.titleButton} id='title_btn'>
+            <div id='title'>${this.state?.user.nickname}의 Todo List</div>
+            <button class=${TodoListPageStyle.titleButton} id='titleBtn'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
           </div>
-          <form class=${TodoListPageStyle.input}>
+          <form class=${TodoListPageStyle.input} id='todoForm'>
             <input class=${TodoListPageStyle.inputElement} type='text' placeholder='할 일을 입력하세요'/>
             <button class=${TodoListPageStyle.inputButton}>
               <img alt='add' src=${PlusIcon} />
             </button>
           </form>
         </header>
-        <main class=${TodoListPageStyle.main}></main>
-        <div class='Modal__Position'></div>
+        <main class=${TodoListPageStyle.main} id='todoMain'></main>
+        <div class='Modal__Position' id='modalPosition'></div>
       </div>
     `;
   }
 
   async created() {
-    // const data = await getTodos();
-    // console.log(data);
-    // const user = await fetchUser();
-    // this.setState({ user, isLoading: false });
+    const urlParams = new URL(window.location.href).searchParams;
+    history.pushState({}, '', '/');
+    if (localStorage.getItem('token')) {
+      const { user } = await getUser(localStorage.getItem('token'));
+      return this.setState({ user, isLoading: false });
+    }
+    const token = urlParams.get('token');
+    saveToken(token);
+    const { user } = await getUser(localStorage.getItem('token'));
+    return this.setState({ user, isLoading: false });
   }
 
-  // async mounted() {
-  //   const { toDos } = this.state.user;
-  //   const $main = document.querySelector('.Todo__Main');
-  //   new TodoCard($main, {
-  //     toDos,
-  //   });
-  // }
+  async mounted() {
+    const $main = document.querySelector('#todoMain');
+    const toDos = await getTodos();
+    new TodoCard($main, {
+      toDos,
+    });
+  }
 
   setEvent() {
-    this.addEvent('click', '#title_btn', this.openHamburgerModal);
-    this.addEvent('submit', '.Todo__Input', this.submitTodo.bind(this));
+    this.addEvent('click', '#titleBtn', this.openHamburgerModal);
+    this.addEvent('submit', '#todoForm', this.submitTodo.bind(this));
   }
 
   async submitTodo(e) {
     e.preventDefault();
+    e.stopImmediatePropagation();
     const toDoInput = document.querySelector(
-      '.Todo__Input input'
+      '#todoForm input'
     ) as HTMLInputElement;
     const newToDo = toDoInput.value;
-    toDoInput.value = '';
     await postTodo(newToDo);
-    const data = await fetchUser();
-    this.setState({ user: data, isLoading: false });
-    const { toDos } = this.state.user;
-    const $main = document.querySelector('.Todo__Main');
+    toDoInput.value = '';
+    const toDos = await getTodos();
+    const $main = document.querySelector('#todoMain');
     new TodoCard($main, {
       toDos,
     });

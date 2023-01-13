@@ -7,14 +7,14 @@ import MoreOptionModal from '@/views/components/MoreOptionModal';
 class TodoCard extends Component {
   initState() {
     return {
-      toDos: this.props.toDos.data,
+      toDos: this.props.toDos.data || this.props.toDos,
     };
   }
 
   template() {
     return `
       <ul class=${TodoListCardStyle.list}>
-        ${this.state.toDos
+        ${this?.state?.toDos
           .map(
             (todo) => `
               <li class=${TodoListCardStyle.listCard} data-todo-id=${
@@ -37,10 +37,6 @@ class TodoCard extends Component {
           .join('')}
       </ul>
     `;
-  }
-
-  created() {
-    console.log(this.state.toDos);
   }
 
   setEvent() {

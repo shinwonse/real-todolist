@@ -1,4 +1,4 @@
-import { deleteTodo, fetchUser, putTodo } from '@/api/todoList';
+import { deleteTodo, getTodos, putTodo } from '@/api/todoList';
 import DeleteIcon from '@/assets/icons/icon-delete.svg';
 import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
@@ -6,23 +6,28 @@ import ModalStyle from '@/assets/styles/scss/modal.module.scss';
 import Component from '@/core/Component';
 import TodoCard from '@/views/components/TodoCard';
 
+function test(id) {
+  console.log(id);
+  return id;
+}
+
 class MoreOptionModal extends Component {
   initState() {
     return {
-      id: this.props,
+      id: null,
     };
   }
 
   template() {
     return `
-      <div class=${ModalStyle.wrapper}>
-        <div class=${ModalStyle.overlay}></div>
-        <div class=${ModalStyle.content}>
+      <div class=${ModalStyle.wrapper} id='modalWrapper'>
+        <div class=${ModalStyle.overlay} id='modalOverlay'></div>
+        <div class=${ModalStyle.content} id='modalContent'>
           <button class=${ModalStyle.button} id='edit'>
             <img class=${ModalStyle.icon} alt='edit' src=${EditIcon} />
             <h2>Edit</h2>
           </button>
-          <button class=${ModalStyle.button} id='delete'>
+          <button class=${ModalStyle.button} id='deleteBtn'>
             <img class=${ModalStyle.icon} alt='delete' src=${DeleteIcon} />
             <h2>Delete</h2>
           </button>
@@ -31,53 +36,55 @@ class MoreOptionModal extends Component {
     `;
   }
 
+  created() {
+    this.setState({ id: this.props });
+    console.log(this.state.id);
+  }
+
   startEdit(id) {
-    const contentDiv = document.querySelector('.Modal__Content');
+    const contentDiv = document.querySelector('#modalContent');
     contentDiv.innerHTML = `
-      <form class=${ModalStyle.form}>
-        <input class=${ModalStyle.input} type='text' placeholder='수정할 할 일을 입력하세요.'/>
-        <button class=${ModalStyle.button} type='submit' class='Modal__Submit'>
+      <form class=${ModalStyle.form} id='modalForm'>
+        <input class=${ModalStyle.input} id='modalInput' type='text' placeholder='수정할 할 일을 입력하세요.'/>
+        <button class=${ModalStyle.button} type='submit'>
           <img class=${ModalStyle.editIcon} alt='submit' src=${SubmitIcon} />
         </button>
       </form>
     `;
-    this.addEvent('submit', '.Modal__Form', async (e) => {
+    this.addEvent('submit', '#modalForm', async (e) => {
       e.preventDefault();
-      const input = document.querySelector('.Modal__Input') as HTMLInputElement;
+      const input = document.querySelector('#modalInput') as HTMLInputElement;
       const newContent = input.value;
       await putTodo(id, false, newContent);
-      const data = await fetchUser();
-      this.setState({ user: data, isLoading: false });
       this.closeModal();
-      const { toDos } = this.state.user;
-      const $main = document.querySelector('.Todo__Main');
+      const $main = document.querySelector('#todoMain');
+      const { data: toDos } = await getTodos();
       new TodoCard($main, { toDos });
     });
   }
 
   closeModal() {
-    const modal = document.querySelector('.Modal');
+    const modal = document.querySelector('#modalWrapper');
     if (modal) {
       modal.remove();
     }
   }
 
-  async clickDeleteButton(id) {
-    await deleteTodo(id);
-    const data = await fetchUser();
-    this.setState({ user: data, isLoading: false });
-    this.closeModal();
-    const { toDos } = this.state.user;
-    const $main = document.querySelector('.Todo__Main');
-    new TodoCard($main, { toDos });
+  async clickDeleteButton(e) {
+    e.stopImmediatePropagation();
+    console.log(this.props);
+    // const { data: toDos } = await getTodos();
+    // const $main = document.querySelector('#todoMain');
+    // new TodoCard($main, { toDos });
   }
 
   setEvent() {
-    this.addEvent('click', '.Modal__Overlay', this.closeModal);
+    const id = this.state.id;
+    const $deleteBtn = document.querySelector('#deleteBtn');
+    this.addEvent('click', '#modalOverlay', this.closeModal.bind(this));
     this.addEvent('click', '#edit', () => this.startEdit(this.state.id));
-    this.addEvent('click', '#delete', () =>
-      this.clickDeleteButton(this.state.id)
-    );
+    this.addEvent('click', '#deleteBtn', () => test(id));
+    $deleteBtn.removeEventListener('click', () => test(id));
   }
 }
 

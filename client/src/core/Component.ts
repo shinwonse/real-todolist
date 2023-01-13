@@ -57,6 +57,7 @@ class Component {
     this.$target.addEventListener(eventType, (event) => {
       if (!isTarget(event.target)) return false;
       callback(event);
+      this.$target.removeEventListener(eventType, callback);
     });
   }
 }
