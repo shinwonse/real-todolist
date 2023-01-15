@@ -55,6 +55,7 @@ class MoreOptionModal extends Component {
 
   closeModal() {
     const modal = document.querySelector('#modalWrapper');
+    this.removeEvent();
     return modal?.remove();
   }
 
@@ -72,7 +73,6 @@ class MoreOptionModal extends Component {
   async deleteTodo(e) {
     e.stopImmediatePropagation();
     await deleteTodo(this.state.id);
-    this.removeEvent();
     this.closeModal();
     const $main = document.querySelector('#todoMain');
     const { data: toDos } = await getTodos();
