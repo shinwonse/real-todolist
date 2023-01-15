@@ -6,16 +6,19 @@ import { GH_REDIRECT_URL } from '@/constants';
 import Component from '@/core/Component';
 
 class HamburgerModal extends Component {
+  private onClickModalOverlay;
+  private onClickGitHubButton;
+
   template() {
     return `
-      <div class=${ModalStyle.wrapper} id='modal_wrapper'>
-        <div class=${ModalStyle.overlay} id='modal_overlay'></div>
+      <div class=${ModalStyle.wrapper} id='modalWrapper'>
+        <div class=${ModalStyle.overlay} id='modalOverlay'></div>
         <div class=${ModalStyle.content}>
-          <button class=${ModalStyle.button} id='logout'>
+          <button class=${ModalStyle.button} id='logoutBtn'>
             <img class=${ModalStyle.icon} alt='logout' src=${LogoutIcon} />
             <h2>Logout</h2>
           </button>
-          <button class=${ModalStyle.button} id='github'>
+          <button class=${ModalStyle.button} id='githubBtn'>
             <img class=${ModalStyle.icon} alt='github' src=${GitHubIcon} />
             <h2>GitHub</h2>
           </button>
@@ -24,21 +27,37 @@ class HamburgerModal extends Component {
     `;
   }
 
-  setEvent() {
-    this.addEvent('click', '#modal_overlay', this.closeModal);
-    this.addEvent('click', '#logout', logout);
-    this.addEvent('click', '#github', this.openGitHub);
+  mounted() {
+    this.onClickModalOverlay = this.closeModal.bind(this);
+    this.onClickGitHubButton = this.openGitHub.bind(this);
+  }
+
+  closeModal() {
+    const modal = document.querySelector('#modalWrapper');
+    this.removeEvent();
+    return modal?.remove();
   }
 
   openGitHub() {
     window.open(GH_REDIRECT_URL, 'real-todolist-github');
   }
 
-  closeModal() {
-    const modal = document.querySelector('#modal_wrapper');
-    if (modal) {
-      return modal.remove();
-    }
+  setEvent() {
+    const $modalOverlay = document.querySelector('#modalOverlay');
+    const $logout = document.querySelector('#logoutBtn');
+    const $github = document.querySelector('#github');
+    $modalOverlay?.addEventListener('click', this.onClickModalOverlay);
+    $logout?.addEventListener('click', logout);
+    $github?.addEventListener('click', this.openGitHub);
+  }
+
+  removeEvent() {
+    const $modalOverlay = document.querySelector('#modalOverlay');
+    const $logout = document.querySelector('#logoutBtn');
+    const $github = document.querySelector('#github');
+    $modalOverlay?.removeEventListener('click', this.onClickModalOverlay);
+    $logout?.removeEventListener('click', logout);
+    $github?.removeEventListener('click', this.openGitHub);
   }
 }
 
