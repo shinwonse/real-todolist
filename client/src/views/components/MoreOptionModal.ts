@@ -6,12 +6,11 @@ import ModalStyle from '@/assets/styles/scss/modal.module.scss';
 import Component from '@/core/Component';
 import TodoCard from '@/views/components/TodoCard';
 
-function test(id) {
-  console.log(id);
-  return id;
-}
-
 class MoreOptionModal extends Component {
+  private onClickDeleteButton;
+  private onClickEditButton;
+  private onClickModalOverlay;
+
   initState() {
     return {
       id: null,
@@ -38,10 +37,9 @@ class MoreOptionModal extends Component {
 
   created() {
     this.setState({ id: this.props });
-    console.log(this.state.id);
   }
 
-  startEdit(id) {
+  startEdit() {
     const contentDiv = document.querySelector('#modalContent');
     contentDiv.innerHTML = `
       <form class=${ModalStyle.form} id='modalForm'>
@@ -51,40 +49,58 @@ class MoreOptionModal extends Component {
         </button>
       </form>
     `;
-    this.addEvent('submit', '#modalForm', async (e) => {
-      e.preventDefault();
-      const input = document.querySelector('#modalInput') as HTMLInputElement;
-      const newContent = input.value;
-      await putTodo(id, false, newContent);
-      this.closeModal();
-      const $main = document.querySelector('#todoMain');
-      const { data: toDos } = await getTodos();
-      new TodoCard($main, { toDos });
-    });
+    const $form = document.querySelector('#modalForm');
+    $form.addEventListener('submit', this.editTodo.bind(this));
   }
 
   closeModal() {
     const modal = document.querySelector('#modalWrapper');
-    if (modal) {
-      modal.remove();
-    }
+    if (modal) modal.remove();
   }
 
-  async clickDeleteButton(e) {
+  async editTodo(e) {
+    e.preventDefault();
+    const input = document.querySelector('#modalInput') as HTMLInputElement;
+    const newContent = input.value;
+    await putTodo(this.state.id, false, newContent);
+    this.closeModal();
+    const $main = document.querySelector('#todoMain');
+    const { data: toDos } = await getTodos();
+    new TodoCard($main, { toDos });
+  }
+
+  async deleteTodo(e) {
     e.stopImmediatePropagation();
-    console.log(this.props);
-    // const { data: toDos } = await getTodos();
-    // const $main = document.querySelector('#todoMain');
-    // new TodoCard($main, { toDos });
+    await deleteTodo(this.state.id);
+    this.removeEvent();
+    this.closeModal();
+    const $main = document.querySelector('#todoMain');
+    const { data: toDos } = await getTodos();
+    new TodoCard($main, { toDos });
+  }
+
+  mounted() {
+    this.onClickEditButton = this.startEdit.bind(this);
+    this.onClickDeleteButton = this.deleteTodo.bind(this);
+    this.onClickModalOverlay = this.closeModal.bind(this);
   }
 
   setEvent() {
-    const id = this.state.id;
     const $deleteBtn = document.querySelector('#deleteBtn');
-    this.addEvent('click', '#modalOverlay', this.closeModal.bind(this));
-    this.addEvent('click', '#edit', () => this.startEdit(this.state.id));
-    this.addEvent('click', '#deleteBtn', () => test(id));
-    $deleteBtn.removeEventListener('click', () => test(id));
+    const $editBtn = document.querySelector('#edit');
+    const $modalOverlay = document.querySelector('#modalOverlay');
+    $editBtn?.addEventListener('click', this.onClickEditButton);
+    $deleteBtn?.addEventListener('click', this.onClickDeleteButton);
+    $modalOverlay?.addEventListener('click', this.closeModal.bind(this));
+  }
+
+  removeEvent() {
+    const $editBtn = document.querySelector('#edit');
+    const $deleteBtn = document.querySelector('#deleteBtn');
+    const $modalOverlay = document.querySelector('#modalOverlay');
+    $editBtn?.removeEventListener('click', this.onClickEditButton);
+    $deleteBtn?.removeEventListener('click', this.onClickDeleteButton);
+    $modalOverlay?.removeEventListener('click', this.onClickModalOverlay);
   }
 }
 
