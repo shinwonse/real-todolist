@@ -5,9 +5,9 @@ export const bind = (template) => {
   });
 };
 
-export const isLogin = () => {
-  return !!localStorage.getItem('token');
-};
+export const getToken = () => localStorage.getItem('token');
+
+export const isLogin = () => !!localStorage.getItem('token');
 
 export const saveToken = (token) => localStorage.setItem('token', token);
 
