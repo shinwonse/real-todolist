@@ -5,12 +5,10 @@ const routes = [
   {
     path: '/',
     component: TodoList,
-    auth: true,
   },
   {
     path: '/login',
     component: Login,
-    auth: false,
   },
 ];
 
@@ -27,7 +25,7 @@ class Router {
   }
 
   async init() {
-    const { auth, component } = routes.find(
+    const { component } = routes.find(
       (route) => route.path === location.pathname
     );
     return new component(this.$app, {});
