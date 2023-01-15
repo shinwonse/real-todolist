@@ -1,3 +1,4 @@
+import { isLogin } from '@/utils';
 import Login from '@/views/pages/Login';
 import TodoList from '@/views/pages/TodoList';
 
@@ -5,10 +6,12 @@ const routes = [
   {
     path: '/',
     component: TodoList,
+    auth: true,
   },
   {
     path: '/login',
     component: Login,
+    auth: false,
   },
 ];
 
@@ -25,9 +28,19 @@ class Router {
   }
 
   async init() {
-    const { component } = routes.find(
+    const { auth, component } = routes.find(
       (route) => route.path === location.pathname
     );
+    if (component === Login) {
+      if (isLogin()) return Router.push('/');
+    }
+    if (auth) {
+      const urlParams = new URL(window.location.href).searchParams;
+      const token = urlParams.get('token');
+      if (!token) {
+        if (!isLogin()) return Router.push('/login');
+      }
+    }
     return new component(this.$app, {});
   }
 
