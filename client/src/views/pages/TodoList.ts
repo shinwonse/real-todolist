@@ -4,11 +4,14 @@ import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import TodoListPageStyle from '@/assets/styles/scss/todolist.module.scss';
 import Component from '@/core/Component';
-import { saveToken } from '@/utils';
+import Router from '@/Router';
+import { getToken, isLogin, saveToken } from '@/utils';
 import HamburgerModal from '@/views/components/HamburgerModal';
 import TodoCard from '@/views/components/TodoCard';
 import TodoCardSkeleton from '@/views/skeletons/TodoCardSkeleton';
 import UsernameSkeleton from '@/views/skeletons/UsernameSkeleton';
+
+const LOADING_TIME = 500;
 
 class TodoListPage extends Component {
   initState() {
@@ -44,16 +47,19 @@ class TodoListPage extends Component {
   }
 
   async created() {
-    const urlParams = new URL(window.location.href).searchParams;
-    history.pushState({}, '', '/');
-    if (localStorage.getItem('token')) {
-      const { user } = await getUser(localStorage.getItem('token'));
+    if (isLogin()) {
+      const { user } = await getUser(getToken());
       return this.setState({ user, isLoading: false });
     }
+    const urlParams = new URL(window.location.href).searchParams;
+    history.pushState({}, '', '/');
     const token = urlParams.get('token');
-    saveToken(token);
-    const { user } = await getUser(localStorage.getItem('token'));
-    return this.setState({ user, isLoading: false });
+    if (!token) return Router.push('/login');
+    else {
+      saveToken(token);
+      const { user } = await getUser(token);
+      return this.setState({ user, isLoading: false });
+    }
   }
 
   async mounted() {
@@ -65,7 +71,7 @@ class TodoListPage extends Component {
       new TodoCard($main, {
         toDos,
       });
-    }, 500);
+    }, LOADING_TIME);
   }
 
   setEvent() {
