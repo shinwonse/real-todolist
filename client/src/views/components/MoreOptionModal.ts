@@ -55,7 +55,7 @@ class MoreOptionModal extends Component {
 
   closeModal() {
     const modal = document.querySelector('#modalWrapper');
-    if (modal) modal.remove();
+    return modal?.remove();
   }
 
   async editTodo(e) {
