@@ -7,6 +7,8 @@ import Component from '@/core/Component';
 import { saveToken } from '@/utils';
 import HamburgerModal from '@/views/components/HamburgerModal';
 import TodoCard from '@/views/components/TodoCard';
+import TodoCardSkeleton from '@/views/skeletons/TodoCardSkeleton';
+import UsernameSkeleton from '@/views/skeletons/UsernameSkeleton';
 
 class TodoListPage extends Component {
   initState() {
@@ -21,7 +23,7 @@ class TodoListPage extends Component {
       <div class=${TodoListPageStyle.wrapper}>
         <header class=${TodoListPageStyle.header}>
           <div class=${TodoListPageStyle.title}>
-            <div id='title'>${this.state?.user.nickname}의 Todo List</div>
+            <div id='title'>${UsernameSkeleton}</div>
             <button class=${TodoListPageStyle.titleButton} id='titleBtn'>
               <img alt='hamburger' src=${HamburgerIcon} />
             </button>
@@ -33,7 +35,9 @@ class TodoListPage extends Component {
             </button>
           </form>
         </header>
-        <main class=${TodoListPageStyle.main} id='todoMain'></main>
+        <main class=${TodoListPageStyle.main} id='todoMain'>
+          ${TodoCardSkeleton}
+        </main>
         <div class='Modal__Position' id='modalPosition'></div>
       </div>
     `;
@@ -54,10 +58,14 @@ class TodoListPage extends Component {
 
   async mounted() {
     const $main = document.querySelector('#todoMain');
+    const $title = document.querySelector('#title');
     const toDos = await getTodos();
-    new TodoCard($main, {
-      toDos,
-    });
+    setTimeout(() => {
+      $title.innerHTML = `${this.state?.user?.nickname}님의 Todo List`;
+      new TodoCard($main, {
+        toDos,
+      });
+    }, 500);
   }
 
   setEvent() {
