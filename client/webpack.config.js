@@ -25,9 +25,7 @@ const config = {
     new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
-    new Dotenv({
-      path: path.resolve(__dirname, '.env'),
-    }),
+    new Dotenv(),
   ],
   module: {
     rules: [
