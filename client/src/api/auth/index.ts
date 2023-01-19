@@ -1,8 +1,9 @@
 import axios from '@/api/axios';
+import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '@/constants';
 import Router from '@/Router';
 import { deleteToken } from '@/utils';
 
-const KAKAO_AUTHORIZATION_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&response_type=code`;
+const KAKAO_AUTHORIZATION_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 console.log(KAKAO_AUTHORIZATION_URL);
 
 export const kakaoLogin = () => (location.href = KAKAO_AUTHORIZATION_URL);
