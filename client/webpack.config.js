@@ -1,6 +1,6 @@
 const path = require('path');
 
-const Dotenv = require('dotenv-webpack');
+const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
@@ -25,7 +25,12 @@ const config = {
     new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
-    new Dotenv(),
+    new webpack.DefinePlugin({
+      KAKAO_CLIENT_ID: JSON.stringify(process.env.KAKAO_CLIENT_ID),
+      KAKAO_REDIRECT_URI: JSON.stringify(process.env.KAKAO_REDIRECT_URI),
+      SERVER_BASE_URI: JSON.stringify(process.env.SERVER_BASE_URI),
+      GITHUB_REDIRECT_URL: JSON.stringify(process.env.GITHUB_REDIRECT_URL),
+    }),
   ],
   module: {
     rules: [
@@ -68,12 +73,16 @@ const config = {
   },
 };
 
-module.exports = () => {
+module.exports = (env) => {
+  const { DEV } = env;
+  if (DEV) {
+    dotenv.config({ path: './dev.env' });
+  } else {
+    dotenv.config({ path: './.env' });
+  }
   if (isProduction) {
     config.mode = 'production';
-
     config.plugins.push(new MiniCssExtractPlugin());
-
     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
   } else {
     config.mode = 'development';

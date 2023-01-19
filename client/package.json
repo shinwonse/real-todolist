@@ -4,8 +4,8 @@
   "description": "TodoList with VanillaJS",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode=production",
-    "dev": "webpack serve --mode=development"
+    "build": "webpack",
+    "dev": "webpack serve --env DEV=true"
   },
   "author": "shinwonse",
   "license": "ISC",
