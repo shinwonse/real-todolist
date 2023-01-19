@@ -1,6 +1,6 @@
 const path = require('path');
 
-const dotenv = require('dotenv');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
@@ -19,17 +19,12 @@ const config = {
     historyApiFallback: true,
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: 'index.html',
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
-    }),
-    new webpack.DefinePlugin({
-      KAKAO_CLIENT_ID: JSON.stringify(process.env.KAKAO_CLIENT_ID),
-      KAKAO_REDIRECT_URI: JSON.stringify(process.env.KAKAO_REDIRECT_URI),
-      SERVER_BASE_URI: JSON.stringify(process.env.SERVER_BASE_URI),
-      GITHUB_REDIRECT_URL: JSON.stringify(process.env.GITHUB_REDIRECT_URL),
     }),
   ],
   module: {
@@ -73,13 +68,7 @@ const config = {
   },
 };
 
-module.exports = (env) => {
-  const { DEV } = env;
-  if (DEV) {
-    dotenv.config({ path: './dev.env' });
-  } else {
-    dotenv.config({ path: './.env' });
-  }
+module.exports = () => {
   if (isProduction) {
     config.mode = 'production';
     config.plugins.push(new MiniCssExtractPlugin());
