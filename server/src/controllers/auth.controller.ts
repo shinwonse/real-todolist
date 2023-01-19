@@ -6,8 +6,7 @@ import {
   CLIENT_REDIRECT_URI_PRODUCTION,
   JWT_SECRET_KEY,
   KAKAO_CLIENT_ID,
-  KAKAO_REDIRECT_URI_DEV,
-  KAKAO_REDIRECT_URI_PRODUCTION,
+  KAKAO_REDIRECT_URI,
 } from '../config/env';
 import UsersService from '../services/users.service';
 import { User } from '../entities/user.entity';
@@ -27,10 +26,6 @@ class AuthController {
     process.env.NODE_ENV == 'production'
       ? CLIENT_REDIRECT_URI_PRODUCTION
       : CLIENT_REDIRECT_URI_DEV;
-  private kakaoRedirectURI =
-    process.env.NODE_ENV == 'production'
-      ? KAKAO_REDIRECT_URI_PRODUCTION
-      : KAKAO_REDIRECT_URI_DEV;
 
   public goRedirectURL = async (
     req: Request,
@@ -38,7 +33,7 @@ class AuthController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${this.kakaoRedirectURI}&response_type=code`;
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
       res.redirect(kakaoAuthUrl);
     } catch (error) {
@@ -51,7 +46,6 @@ class AuthController {
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
-    console.log(this.redirectURI, this.kakaoRedirectURI);
     // 인증 코드를 먼저 받아오는 부분
     let kakaoTokenRequest;
     try {
@@ -64,7 +58,7 @@ class AuthController {
         data: qs.stringify({
           client_id: KAKAO_CLIENT_ID,
           grant_type: 'authorization_code',
-          redirect_uri: this.kakaoRedirectURI,
+          redirect_uri: KAKAO_REDIRECT_URI,
           code: req.query.code,
         }),
       });
@@ -106,19 +100,8 @@ class AuthController {
         });
         loginUser = await this.usersService.createUser(userData);
       }
-
-      // req.session.isLogin = true;
-      // req.session.loginedUser = loginUser;
-      // console.log(req.session);
-      // req.session.save((err) => {
-      //   console.log('세션 저장');
-      //   console.log(err);
-      // });
-      // console.log(redirectURI);
-      // res.redirect('https://real-todolist.vercel.app');
       const tokenData = this.createToken(loginUser);
       res.redirect(this.redirectURI + `?token=${tokenData.token}`);
-      // res.redirect(this.redirectURI + '/' + qs.stringify(tokenData));
     } catch (error) {
       next(error);
     }
