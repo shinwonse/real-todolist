@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import OauthRoutes from './routes/oauth.routes';
 import UsersRoutes from './routes/users.routes';
-import TodosRoutes from "./routes/todos.routes";
+import TodosRoutes from './routes/todos.routes';
 
 class Routes {
   public router = Router();

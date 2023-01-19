@@ -3,7 +3,6 @@ import cors from 'cors';
 import { AppDataSource } from './config/data-source';
 import { CREDENTIALS, ORIGIN_DEV, ORIGIN_PRODUCTION, PORT } from './config/env';
 import Routes from './routes';
-import RedisClient from './config/redis';
 import errorMiddleware from './middlewares/error.middleware';
 
 class App {
@@ -44,14 +43,14 @@ class App {
         console.error('DataSource Connect Error!!');
         console.log(err);
       });
-    await RedisClient.connect()
-      .then(() => {
-        console.log('Redis Connect Success!');
-      })
-      .catch((err) => {
-        console.error('Redis Connect Error!!');
-        console.log(err);
-      });
+    // await RedisClient.connect()
+    //   .then(() => {
+    //     console.log('Redis Connect Success!');
+    //   })
+    //   .catch((err) => {
+    //     console.error('Redis Connect Error!!');
+    //     console.log(err);
+    //   });
     console.info(`=================================`);
   }
 
