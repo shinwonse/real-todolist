@@ -19,7 +19,9 @@ const config = {
     historyApiFallback: true,
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      systemvars: true,
+    }),
     new HtmlWebpackPlugin({
       template: 'index.html',
     }),
