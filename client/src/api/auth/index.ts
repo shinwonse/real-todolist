@@ -3,6 +3,8 @@ import { KAKAO_AUTHORIZATION_URL } from '@/constants';
 import Router from '@/Router';
 import { deleteToken } from '@/utils';
 
+console.log(KAKAO_AUTHORIZATION_URL);
+
 export const kakaoLogin = () => (location.href = KAKAO_AUTHORIZATION_URL);
 
 export const logout = () => {
