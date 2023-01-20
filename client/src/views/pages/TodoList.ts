@@ -1,5 +1,5 @@
 import { getUser } from '@/api/auth';
-import { postTodo, getTodos } from '@/api/todoList';
+import { postTodo, getTodo } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import TodoListPageStyle from '@/assets/styles/scss/todolist.module.scss';
@@ -65,7 +65,7 @@ class TodoListPage extends Component {
   async mounted() {
     const $main = document.querySelector('#todoMain');
     const $title = document.querySelector('#title');
-    const toDos = await getTodos();
+    const toDos = await getTodo();
     setTimeout(() => {
       $title.innerHTML = `${this.state?.user?.nickname}님의 Todo List`;
       new TodoCard($main, {
@@ -88,7 +88,7 @@ class TodoListPage extends Component {
     const newToDo = toDoInput.value;
     await postTodo(newToDo);
     toDoInput.value = '';
-    const toDos = await getTodos();
+    const toDos = await getTodo();
     const $main = document.querySelector('#todoMain');
     new TodoCard($main, {
       toDos,

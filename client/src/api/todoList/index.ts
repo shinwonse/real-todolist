@@ -16,6 +16,11 @@ export const getTodos = async () => {
   return data;
 };
 
+export const getTodo = async () => {
+  const { data } = await axios.get('/todos', { headers });
+  return data;
+};
+
 export const postTodo = async (newToDo) => {
   await axios.post('/todos', { text: newToDo }, { headers });
 };
