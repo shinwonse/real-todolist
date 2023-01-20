@@ -7,7 +7,7 @@ import MoreOptionModal from '@/views/components/MoreOptionModal';
 class TodoCard extends Component {
   initState() {
     return {
-      toDos: this.props.toDos.data || this.props.toDos,
+      toDos: this.props.toDos,
     };
   }
 
