@@ -1,4 +1,4 @@
-import { deleteTodo, getTodos, putTodo } from '@/api/todoList';
+import { deleteTodo, getTodo, putTodo } from '@/api/todoList';
 import DeleteIcon from '@/assets/icons/icon-delete.svg';
 import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
@@ -66,7 +66,7 @@ class MoreOptionModal extends Component {
     await putTodo(this.state.id, false, newContent);
     this.closeModal();
     const $main = document.querySelector('#todoMain');
-    const { data: toDos } = await getTodos();
+    const { data: toDos } = await getTodo();
     new TodoCard($main, { toDos });
   }
 
@@ -75,7 +75,7 @@ class MoreOptionModal extends Component {
     await deleteTodo(this.state.id);
     this.closeModal();
     const $main = document.querySelector('#todoMain');
-    const { data: toDos } = await getTodos();
+    const { data: toDos } = await getTodo();
     new TodoCard($main, { toDos });
   }
 
