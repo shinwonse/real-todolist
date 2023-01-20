@@ -1,7 +1,8 @@
 import axios from '@/api/axios';
+import { getToken } from '@/utils';
 
 const headers = {
-  Authorization: `Bearer ${localStorage.getItem('token')}`,
+  Authorization: `Bearer ${getToken()}`,
 };
 
 export const fetchUser = async () => {
@@ -16,7 +17,10 @@ export const getTodos = async () => {
   return data;
 };
 
-export const getTodo = async () => {
+export const getTodo = async (token) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
   const { data } = await axios.get('/todos', { headers });
   return data;
 };
