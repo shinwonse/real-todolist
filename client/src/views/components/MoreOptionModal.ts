@@ -4,6 +4,7 @@ import EditIcon from '@/assets/icons/icon-edit.svg';
 import SubmitIcon from '@/assets/icons/icon-submit.svg';
 import ModalStyle from '@/assets/styles/scss/modal.module.scss';
 import Component from '@/core/Component';
+import { getToken } from '@/utils';
 import TodoCard from '@/views/components/TodoCard';
 
 class MoreOptionModal extends Component {
@@ -66,7 +67,7 @@ class MoreOptionModal extends Component {
     await putTodo(this.state.id, false, newContent);
     this.closeModal();
     const $main = document.querySelector('#todoMain');
-    const { data: toDos } = await getTodo();
+    const { data: toDos } = await getTodo(getToken());
     new TodoCard($main, { toDos });
   }
 
@@ -75,7 +76,7 @@ class MoreOptionModal extends Component {
     await deleteTodo(this.state.id);
     this.closeModal();
     const $main = document.querySelector('#todoMain');
-    const { data: toDos } = await getTodo();
+    const { data: toDos } = await getTodo(getToken());
     new TodoCard($main, { toDos });
   }
 
