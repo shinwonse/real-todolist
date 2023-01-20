@@ -1,4 +1,6 @@
-import { isLogin } from '@/utils';
+import { getUser } from '@/api/auth';
+import { getTodo } from '@/api/todoList';
+import { getToken, isLogin, saveToken } from '@/utils';
 import Login from '@/views/pages/Login';
 import TodoList from '@/views/pages/TodoList';
 
@@ -35,11 +37,21 @@ class Router {
       if (isLogin()) return Router.push('/');
     }
     if (auth) {
+      if (isLogin()) {
+        const { user } = await getUser(getToken());
+        const { data: toDos } = await getTodo(getToken());
+        return new component(this.$app, { user, toDos });
+      }
       const urlParams = new URL(window.location.href).searchParams;
       const token = urlParams.get('token');
+      history.pushState({}, '', '/');
       if (!token) {
         if (!isLogin()) return Router.push('/login');
       }
+      await saveToken(token);
+      const { user } = await getUser(token);
+      const { data: toDos } = await getTodo(token);
+      return new component(this.$app, { user, toDos });
     }
     return new component(this.$app, {});
   }
