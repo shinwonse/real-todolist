@@ -45,19 +45,19 @@ class HamburgerModal extends Component {
   setEvent() {
     const $modalOverlay = document.querySelector('#modalOverlay');
     const $logout = document.querySelector('#logoutBtn');
-    const $github = document.querySelector('#github');
+    const $github = document.querySelector('#githubBtn');
     $modalOverlay?.addEventListener('click', this.onClickModalOverlay);
     $logout?.addEventListener('click', logout);
-    $github?.addEventListener('click', this.openGitHub);
+    $github?.addEventListener('click', this.onClickGitHubButton);
   }
 
   removeEvent() {
     const $modalOverlay = document.querySelector('#modalOverlay');
     const $logout = document.querySelector('#logoutBtn');
-    const $github = document.querySelector('#github');
+    const $github = document.querySelector('#githubBtn');
     $modalOverlay?.removeEventListener('click', this.onClickModalOverlay);
     $logout?.removeEventListener('click', logout);
-    $github?.removeEventListener('click', this.openGitHub);
+    $github?.removeEventListener('click', this.onClickGitHubButton);
   }
 }
 
