@@ -17,6 +17,7 @@ class TodoListPage extends Component {
   initState() {
     return {
       user: null,
+      toDos: [],
       isLoading: true,
     };
   }
@@ -47,29 +48,17 @@ class TodoListPage extends Component {
   }
 
   async created() {
-    if (isLogin()) {
-      const { user } = await getUser(getToken());
-      return this.setState({ user, isLoading: false });
-    }
-    const urlParams = new URL(window.location.href).searchParams;
-    history.pushState({}, '', '/');
-    const token = urlParams.get('token');
-    if (!token) return Router.push('/login');
-    else {
-      saveToken(token);
-      const { user } = await getUser(token);
-      return this.setState({ user, isLoading: false });
-    }
+    const { user, toDos } = this.props;
+    return this.setState({ user, toDos, isLoading: false });
   }
 
   async mounted() {
     const $main = document.querySelector('#todoMain');
     const $title = document.querySelector('#title');
-    const toDos = await getTodo();
     setTimeout(() => {
       $title.innerHTML = `${this.state?.user?.nickname}님의 Todo List`;
       new TodoCard($main, {
-        toDos,
+        toDos: this.state.toDos,
       });
     }, LOADING_TIME);
   }
@@ -88,7 +77,7 @@ class TodoListPage extends Component {
     const newToDo = toDoInput.value;
     await postTodo(newToDo);
     toDoInput.value = '';
-    const toDos = await getTodo();
+    const toDos = await getTodo(getToken());
     const $main = document.querySelector('#todoMain');
     new TodoCard($main, {
       toDos,
