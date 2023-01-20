@@ -10,7 +10,7 @@ class LoginPage extends Component {
         <div class=${LoginPageStyle.contents}>
           <h1 class=${LoginPageStyle.title}>Real TodoList</h1>
           <button class=${LoginPageStyle.button} id='login_btn'>
-            <img src=${KakaoLogin} alt='kakao_login'  />
+            <img src=${KakaoLogin} alt='kakao_login' />
           </button>
         </div>
       </main>
