@@ -17,7 +17,7 @@
 
 **Server**
 
-<img src="https://img.shields.io/badge/Node.js-339933.svg?&style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Nest.js-E0234E.svg?&style=for-the-badge&logo=nest.js&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D.svg?&style=for-the-badge&logo=Redis&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4.svg?&style=for-the-badge&logo=Axios&logoColor=white">
+<img src="https://img.shields.io/badge/Node.js-339933.svg?&style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Express-000000.svg?&style=for-the-badge&logo=Express&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4.svg?&style=for-the-badge&logo=Axios&logoColor=white">
 
 
 ## 개발 문서
@@ -43,5 +43,3 @@
 ### 5. 기술 선택 이유
 - [axios](https://shinwonse.notion.site/axios-d00f421a10cb4936b628762e8b7aeaa2)
 - [sass](https://shinwonse.notion.site/sass-0b65b4281f974598a70d7ab64ed4bb64)
-- [webpack](https://shinwonse.notion.site/webpack-94c91fc083824bb39a5070721eb7de6a)
-- [GitHub Actions](https://shinwonse.notion.site/GitHub-Actions-3a8574b468a84d79845302580654239c)
