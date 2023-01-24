@@ -1,11 +1,9 @@
-import { getUser } from '@/api/auth';
 import { postTodo, getTodo } from '@/api/todoList';
 import HamburgerIcon from '@/assets/icons/icon-hamburger.svg';
 import PlusIcon from '@/assets/icons/icon-plus.svg';
 import TodoListPageStyle from '@/assets/styles/scss/todolist.module.scss';
 import Component from '@/core/Component';
-import Router from '@/Router';
-import { getToken, isLogin, saveToken } from '@/utils';
+import { getToken } from '@/utils';
 import HamburgerModal from '@/views/components/HamburgerModal';
 import TodoCard from '@/views/components/TodoCard';
 import TodoCardSkeleton from '@/views/skeletons/TodoCardSkeleton';
