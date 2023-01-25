@@ -4,6 +4,10 @@ import { AppDataSource } from './config/data-source';
 import { CREDENTIALS, ORIGIN_DEV, ORIGIN_PRODUCTION, PORT } from './config/env';
 import Routes from './routes';
 import errorMiddleware from './middlewares/error.middleware';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+const swaggerYaml = YAML.load(path.join(__dirname, './config/swagger.yaml'));
 
 class App {
   public app: express.Application;
@@ -68,6 +72,7 @@ class App {
 
   private initializeRoutes() {
     this.app.use(new Routes().router);
+    this.app.use('/api-yaml', swaggerUi.serve, swaggerUi.setup(swaggerYaml));
     this.app.use('/', (req, res, next) => {
       const data = `Hello World!`;
       res.send(data);
