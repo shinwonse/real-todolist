@@ -1,0 +1,314 @@
+openapi: 3.0.3
+info:
+  title: Todolist
+  description: |-
+    API Docs for todol
+  version: 0.0.1
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: users
+    description: Users
+  - name: todos
+    description: Todos
+  - name: oauth
+    description: OAuth
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: Get all users
+      description: Get all user in DB.
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+      security:
+        - token:
+            - read:users
+    post:
+      tags:
+        - users
+      summary: Add a new user
+      description: Add a new user
+      operationId: createUser
+      requestBody:
+        description: Create a new user
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '409':
+          description: User already exists by kakao_id
+      security:
+        - token:
+            - write:users
+            - read:users
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Find User by id
+      description: Find user by user_id
+      operationId: findUserById
+      parameters:
+        - name: id
+          in: path
+          description: user의 고유 id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'          
+        '409':
+          description: User doesn't exist
+      security:
+        - token:
+            - write:users
+            - read:users
+  /todos/all:
+    get:
+      tags:
+        - todos
+      summary: Get all todos
+      description: Get all todos in DB.
+      operationId: getAllTodos
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'          
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/Todo'
+      security:
+        - token:
+            - write:todos
+            - read:todos
+  /todos:
+    post:
+      tags:
+        - todos
+      summary: Create todo in DB.
+      description: Create todo in DB.
+      operationId: createTodo
+      requestBody:
+        description: Create a new todo
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Todo'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'          
+      security:
+        - token:
+            - write:todos
+            - read:todos
+  /todos/{user_id}:
+    get:
+      tags:
+        - todos
+      summary: Get all todos created user_id in DB.
+      description: Get all todos created by user_id in DB.
+      operationId: getTodoByUserId
+      parameters:
+        - name: user_id
+          in: path
+          description: user의 고유 id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'          
+      security:
+        - token:
+            - write:todos
+            - read:todos
+  /todos/{todo_id}:
+    put:
+      tags:
+        - todos
+      summary: Update todo in DB.
+      description: Update todo in DB.
+      operationId: updateTodos
+      parameters:
+        - name: todo_id
+          in: path
+          description: user의 고유 id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'          
+      security:
+        - token:
+            - write:todos
+            - read:todos
+    delete:
+      tags:
+        - todos
+      summary: Delete todo in DB.
+      description: Delete todo in DB.
+      operationId: deleteTodo
+      parameters:
+        - name: todo_id
+          in: path
+          description: user의 고유 id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'          
+      security:
+        - token:
+            - write:todos
+            - read:todos
+  /oauth/kakao:
+    get:
+      tags:
+        - oauth
+      summary: Redirect to kakao login page
+      description: Redirect to kakao login page
+      operationId: goRedirectURL
+      responses:
+        '200':
+          description: Successful operation
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                'test':
+                  value: 'kakao page'
+              description: 'Description of Location Header'
+  /oauth/islogin:
+    get:
+      tags:
+        - oauth
+      summary: Verify the token.
+      description: Verify the token
+      operationId: islogin
+      
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    default: 'logined'
+                  user:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Not logined
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    default: 'Not logined'
+      security:
+        - token:
+            - write:todos
+            - read:todos
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          example: 1
+        nickname:
+          type: string
+          example: boo
+        is_kakao:
+          type: boolean
+          example: true
+        kakao_id:
+          type: integer
+          format: bigint
+          example: 1581821747129
+      xml:
+        name: user
+    Todo:
+      type: object
+      properties:
+        todo_id:
+          type: integer
+          format: int64
+          example: 1
+        text:
+          type: string
+          example: boo
+        is_completed:
+          type: boolean
+          example: true
+        user_id:
+          type: integer
+          format: bigint
+          example: 1
+      xml:
+        name: todo
+  securitySchemes:
+    token:
+      type: apiKey
+      name: 'token'
+      in: 'header'
